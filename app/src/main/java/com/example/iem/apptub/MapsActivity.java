@@ -44,11 +44,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         KmlLayer layerline1 = null;
+        KmlLayer layerline2 = null;
         KmlLayer layerline3 = null;
         KmlLayer layerline4 = null;
+        KmlLayer layerline21 = null;
         try {
             layerline1 = new KmlLayer(mMap, R.raw.ligne1, this);
             layerline1.addLayerToMap();
+        }catch(Exception e){
+            e.printStackTrace();
+
+        }
+
+        try {
+            layerline2 = new KmlLayer(mMap, R.raw.Ligne2Norelan, this);
+            layerline2.addLayerToMap();
         }catch(Exception e){
             e.printStackTrace();
 
@@ -65,6 +75,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         try {
             layerline4 = new KmlLayer(mMap, R.raw.ligne4, this);
             layerline4.addLayerToMap();
+        }catch(Exception e){
+            e.printStackTrace();
+
+        }
+
+        try {
+            layerline21 = new KmlLayer(mMap, R.raw.ligne_21, this);
+            layerline21.addLayerToMap();
         }catch(Exception e){
             e.printStackTrace();
 
