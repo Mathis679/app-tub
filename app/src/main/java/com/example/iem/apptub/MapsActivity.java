@@ -9,6 +9,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.kml.KmlLayer;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -38,6 +39,33 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
+        KmlLayer layerline1 = null;
+        KmlLayer layerline3 = null;
+        KmlLayer layerline4 = null;
+        try {
+            layerline1 = new KmlLayer(mMap, R.raw.ligne1, this);
+            layerline1.addLayerToMap();
+        }catch(Exception e){
+            e.printStackTrace();
+
+        }
+
+        try {
+            layerline3 = new KmlLayer(mMap, R.raw.ligne3, this);
+            layerline3.addLayerToMap();
+        }catch(Exception e){
+            e.printStackTrace();
+
+        }
+
+        try {
+            layerline4 = new KmlLayer(mMap, R.raw.ligne4, this);
+            layerline4.addLayerToMap();
+        }catch(Exception e){
+            e.printStackTrace();
+
+        }
 
         // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(-34, 151);
