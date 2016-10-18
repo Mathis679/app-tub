@@ -57,7 +57,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         try {
-            layerline2 = new KmlLayer(mMap, R.raw.Ligne2Norelan, this);
+            layerline2 = new KmlLayer(mMap, R.raw.ligne2, this);
             layerline2.addLayerToMap();
         }catch(Exception e){
             e.printStackTrace();
@@ -81,7 +81,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         try {
-            layerline21 = new KmlLayer(mMap, R.raw.ligne_21, this);
+            layerline21 = new KmlLayer(mMap, R.raw.ligne21, this);
             layerline21.addLayerToMap();
         }catch(Exception e){
             e.printStackTrace();
