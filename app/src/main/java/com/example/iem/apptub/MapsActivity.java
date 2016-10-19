@@ -30,23 +30,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        addAllLayer();
+
+
+        // Add a marker in Sydney and move the camera
+        LatLng sydney = new LatLng(-34, 151);
+        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+    }
+
+    public void addAllLayer(){
+        removeAllLayer();
         KmlLayer layerline1 = null;
         KmlLayer layerline2 = null;
         KmlLayer layerline3 = null;
         KmlLayer layerline4 = null;
+        KmlLayer layerline5 = null;
         KmlLayer layerline21 = null;
         try {
             layerline1 = new KmlLayer(mMap, R.raw.ligne1, this);
@@ -81,16 +85,86 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         try {
+            layerline5 = new KmlLayer(mMap, R.raw.ligne5, this);
+            layerline5.addLayerToMap();
+        }catch(Exception e){
+            e.printStackTrace();
+
+        }
+        try {
             layerline21 = new KmlLayer(mMap, R.raw.ligne21, this);
             layerline21.addLayerToMap();
         }catch(Exception e){
             e.printStackTrace();
 
         }
+    }
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(46.17963986330539,5.203233361244202);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Position Bourg-en-Bresse"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+    public void chooseOneLayer(int num){
+        removeAllLayer();
+        KmlLayer layerChosen;
+        switch(num){
+            case 1 :
+                try {
+                    layerChosen = new KmlLayer(mMap, R.raw.ligne1, this);
+                    layerChosen.addLayerToMap();
+                }catch(Exception e){
+                    e.printStackTrace();
+
+                }
+                break;
+            case 2 :
+                try {
+                    layerChosen = new KmlLayer(mMap, R.raw.ligne2, this);
+                    layerChosen.addLayerToMap();
+                }catch(Exception e){
+                    e.printStackTrace();
+
+                }
+                break;
+            case 3 :
+                try {
+                    layerChosen = new KmlLayer(mMap, R.raw.ligne3, this);
+                    layerChosen.addLayerToMap();
+                }catch(Exception e){
+                    e.printStackTrace();
+
+                }
+                break;
+            case 4 :
+                try {
+                    layerChosen = new KmlLayer(mMap, R.raw.ligne4, this);
+                    layerChosen.addLayerToMap();
+                }catch(Exception e){
+                    e.printStackTrace();
+
+                }
+                break;
+            case 5 :
+                try {
+                    layerChosen = new KmlLayer(mMap, R.raw.ligne5, this);
+                    layerChosen.addLayerToMap();
+                }catch(Exception e){
+                    e.printStackTrace();
+
+                }
+                break;
+            case 21 :
+                try {
+                    layerChosen = new KmlLayer(mMap, R.raw.ligne21, this);
+                    layerChosen.addLayerToMap();
+                }catch(Exception e){
+                    e.printStackTrace();
+
+                }
+                break;
+            default :
+                addAllLayer();
+                break;
+        }
+    }
+
+    public void removeAllLayer(){
+        mMap.clear();
     }
 }
