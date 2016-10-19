@@ -165,6 +165,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void removeAllLayer(){
+
         mMap.clear();
     }
 }
