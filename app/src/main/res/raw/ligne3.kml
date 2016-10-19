@@ -6,7 +6,7 @@
 			<Style id='LineGreenPoly'>
 				<LineStyle>
 					<color>ffFFEB0B</color>
-					<width>4</width>
+					<width>8</width>
 				</LineStyle>
 				<PolyStyle>
 					<color>ffFFEB0B</color>
