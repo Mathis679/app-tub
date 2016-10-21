@@ -1,5 +1,6 @@
 package com.example.iem.apptub;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
@@ -35,7 +36,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        addAllLayer();
+        //addAllLayer();
+
+        Intent i = new Intent(this,HorairesActivity.class);
+        startActivity(i);
+
+        chooseOneLayer(21);
 
 
         // Add a marker in Sydney and move the camera
