@@ -2,20 +2,20 @@
 <kml xmlns='http://www.opengis.net/kml/2.2'>
 		<Document>
 			<name>Ligne2Norelan</name>
-			<description>Itinéraire importé depuis le site www.calculitineraires.fr</description>
-			<Style id='LineGreenPoly'>
+			<description>Itinï¿½raire importï¿½ depuis le site www.calculitineraires.fr</description>
+			<Style id='LineRedPoly'>
 				<LineStyle>
-					<color>ff0000ff</color>
-					<width>4</width>
+					<color>ff3300CC</color>
+					<width>12</width>
 				</LineStyle>
 				<PolyStyle>
-					<color>ff0000ff</color>
+					<color>ff3300CC</color>
 				</PolyStyle>
 			</Style>
 			<Placemark>
 				<name>Ligne2Norelan</name>
-				<description>Itinéraire importé depuis le site www.calculitineraires.fr</description>
-				<styleUrl>#LineGreenPoly</styleUrl>
+				<description>Itinï¿½raire importï¿½ depuis le site www.calculitineraires.fr</description>
+				<styleUrl>#LineRedPoly</styleUrl>
 				<LineString>
 					<extrude>1</extrude>
 					<tessellate>1</tessellate>

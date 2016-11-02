@@ -3,19 +3,19 @@
 		<Document>
 			<name>Mon parcours</name>
 			<description>Itineraire importe depuis le site www.calculitineraires.fr</description>
-			<Style id='LineGreenPoly'>
+			<Style id='LineYellowPoly'>
 				<LineStyle>
-					<color>ffFFEB0B</color>
-					<width>8</width>
+					<color>ff00FFFF</color>
+					<width>12</width>
 				</LineStyle>
 				<PolyStyle>
-					<color>ffFFEB0B</color>
+					<color>ff00FFFF</color>
 				</PolyStyle>
 			</Style>
 			<Placemark>
 				<name>Mon parcours</name>
 				<description>Itineraire importe depuis le site www.calculitineraires.fr</description>
-				<styleUrl>#LineGreenPoly</styleUrl>
+				<styleUrl>#LineYellowPoly</styleUrl>
 				<LineString>
 					<extrude>1</extrude>
 					<tessellate>1</tessellate>

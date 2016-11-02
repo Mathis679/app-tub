@@ -5,11 +5,11 @@
 			<description>Itineraire importe depuis le site www.calculitineraires.fr</description>
 			<Style id='LineGreenPoly'>
 				<LineStyle>
-					<color>ff0CE80C</color>
-					<width>8</width>
+					<color>ff009933</color>
+					<width>12</width>
 				</LineStyle>
 				<PolyStyle>
-					<color>ff0CE80C</color>
+					<color>ff009933</color>
 				</PolyStyle>
 			</Style>
 			<Placemark>

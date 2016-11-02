@@ -17,14 +17,14 @@
 		</Folder>
 		<Style id='line-FF0000-4-normal'>
 			<LineStyle>
-				<color>ff0000FF</color>
-				<width>4</width>
+				<color>ff66FF00</color>
+				<width>12</width>
 			</LineStyle>
 		</Style>
 		<Style id='line-FF0000-4-highlight'>
 			<LineStyle>
-				<color>ff0000FF</color>
-				<width>6.0</width>
+				<color>ff66FF00</color>
+				<width>12</width>
 			</LineStyle>
 		</Style>
 		<StyleMap id='line-FF0000-4'>

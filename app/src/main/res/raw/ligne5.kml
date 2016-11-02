@@ -2,19 +2,19 @@
 <kml xmlns='http://www.opengis.net/kml/2.2'>
 		<Document>
 			<name>Ligne7</name>
-			<description>Itinéraire Ligne 7 TUB</description>
+			<description>Itinï¿½raire Ligne 7 TUB</description>
 			<Style id='LineGreenPoly'>
 				<LineStyle>
-					<color>ff0000ff</color>
-					<width>4</width>
+					<color>ffFFCC33</color>
+					<width>12</width>
 				</LineStyle>
 				<PolyStyle>
-					<color>ff0000ff</color>
+					<color>ffFFCC33</color>
 				</PolyStyle>
 			</Style>
 			<Placemark>
 				<name>Ligne7</name>
-				<description>Itinéraire Ligne 7 TUB</description>
+				<description>Itinï¿½raire Ligne 7 TUB</description>
 				<styleUrl>#LineGreenPoly</styleUrl>
 				<LineString>
 					<extrude>1</extrude>

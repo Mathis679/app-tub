@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -78,12 +79,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        //addAllLayer();
+        addAllLayer();
 
         //Intent i = new Intent(this,HorairesActivity.class);
         //startActivity(i);
 
-        chooseOneLayer(21);
+        //chooseOneLayer(21);
 
 
         // Add a marker in Sydney and move the camera
@@ -242,6 +243,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+
+        switch(id){
+            case R.id.nav_camera:
+                Toast.makeText(this, "Test", Toast.LENGTH_SHORT).show();
+                break;
+        }
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
