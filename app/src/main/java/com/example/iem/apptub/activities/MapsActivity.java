@@ -29,8 +29,14 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.kml.KmlLayer;
+import com.opencsv.CSVParser;
+import com.opencsv.CSVReader;
 
-
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -104,6 +110,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         currCtx = this;
 
+        try {
+            readCsv();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -345,6 +356,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+    public void readCsv() throws IOException {
+        CSVReader reader = new CSVReader(new InputStreamReader(
+                currCtx.getResources().openRawResource(R.raw.l1_mol_oy),
+                Charset.forName("windows-1254")),';',
+                CSVParser.DEFAULT_QUOTE_CHARACTER, 0);
 
+        List<String[]> listRead = reader.readAll();
 
     }
+
+
+}
