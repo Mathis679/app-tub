@@ -5,6 +5,10 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/all"
+
+            android:title="Toutes" />
+        <item
             android:id="@+id/ligne1"
 
             android:title="Ligne 1" />

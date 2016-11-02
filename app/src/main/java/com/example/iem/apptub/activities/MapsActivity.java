@@ -1,5 +1,6 @@
 package com.example.iem.apptub.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -19,11 +20,13 @@ import android.view.Window;
 import android.widget.Toast;
 
 import com.example.iem.apptub.R;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.kml.KmlLayer;
 
@@ -36,6 +39,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public int test1;
     private DrawerLayout menuLayout;
     ActionBarDrawerToggle menuToogle;
+    Context currCtx;
 
 
     @Override
@@ -77,7 +81,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     chooseOneLayer(5);
                 } else if (id == R.id.ligne21) {
                     chooseOneLayer(21);
-
+                }else if (id == R.id.all) {
+                    addAllLayer();
                 }
 
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -86,7 +91,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-
+        currCtx = this;
 
 
     }
@@ -99,18 +104,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         addAllLayer();
 
-        //Intent i = new Intent(this,HorairesActivity.class);
-        //startActivity(i);
+        LatLng latLng = new LatLng(46.2,5.2167 );
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 13);
+        mMap.animateCamera(cameraUpdate);
 
-        //chooseOneLayer(21);
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                Intent i = new Intent(currCtx,HorairesActivity.class);
+                startActivity(i);
+                return true;
+            }
+        });
 
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(46.2,5.2167);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Position Bourg-en-Bresse"));
-        // mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        float zoomLevel = 13; //This goes up to 21
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,zoomLevel));
+
     }
 
     public void addAllLayer(){
@@ -177,6 +186,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 try {
                     layerChosen = new KmlLayer(mMap, R.raw.ligne1, this);
                     layerChosen.addLayerToMap();
+                    LatLng sydney = new LatLng(46.2,5.2167);
+                    mMap.addMarker(new MarkerOptions().position(sydney).title("Position Bourg-en-Bresse"));
                 }catch(Exception e){
                     e.printStackTrace();
 
