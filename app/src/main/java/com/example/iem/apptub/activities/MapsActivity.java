@@ -79,7 +79,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     chooseOneLayer(4);
                 } else if (id == R.id.ligne5) {
                     chooseOneLayer(5);
-                } else if (id == R.id.ligne21) {
+                }
+
+                else if (id == R.id.ligne6) {
+                    chooseOneLayer(6);
+                }
+
+                else if (id == R.id.ligne7) {
+                    chooseOneLayer(7);
+                }
+
+
+                else if (id == R.id.ligne21) {
                     chooseOneLayer(21);
                 }else if (id == R.id.all) {
                     addAllLayer();
@@ -129,6 +140,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         KmlLayer layerline3 = null;
         KmlLayer layerline4 = null;
         KmlLayer layerline5 = null;
+        KmlLayer layerline6 = null;
+        KmlLayer layerline7 = null;
         KmlLayer layerline21 = null;
         try {
             layerline1 = new KmlLayer(mMap, R.raw.ligne1, this);
@@ -169,6 +182,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             e.printStackTrace();
 
         }
+
+        try {
+            layerline6 = new KmlLayer(mMap, R.raw.ligne6, this);
+            layerline6.addLayerToMap();
+        }catch(Exception e){
+            e.printStackTrace();
+
+        }
+
+
+        try {
+            layerline7 = new KmlLayer(mMap, R.raw.ligne7, this);
+            layerline7.addLayerToMap();
+        }catch(Exception e){
+            e.printStackTrace();
+
+        }
+
         try {
             layerline21 = new KmlLayer(mMap, R.raw.ligne21, this);
             layerline21.addLayerToMap();
@@ -229,6 +260,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 }
                 break;
+
+            case 6 :
+                try {
+                    layerChosen = new KmlLayer(mMap, R.raw.ligne6, this);
+                    layerChosen.addLayerToMap();
+                }catch(Exception e){
+                    e.printStackTrace();
+
+                }
+                break;
+
+            case 7 :
+                try {
+                    layerChosen = new KmlLayer(mMap, R.raw.ligne7, this);
+                    layerChosen.addLayerToMap();
+                }catch(Exception e){
+                    e.printStackTrace();
+
+                }
+                break;
+
             case 21 :
                 try {
                     layerChosen = new KmlLayer(mMap, R.raw.ligne21, this);
