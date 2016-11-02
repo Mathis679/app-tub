@@ -46,6 +46,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private DrawerLayout menuLayout;
     ActionBarDrawerToggle menuToogle;
     Context currCtx;
+    private String[] horArret;
 
 
     @Override
@@ -110,10 +111,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         currCtx = this;
 
+        List<String[]> csvLines = null;
         try {
-            readCsv();
+            csvLines = readCsv();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        
+        horArret = new String[csvLines.get(1).length];
+        for(int i=0;i<csvLines.get(1).length;i++){
+            horArret[i] = csvLines.get(1)[i];
         }
 
     }
@@ -135,6 +142,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public boolean onMarkerClick(Marker marker) {
                 Intent i = new Intent(currCtx,HorairesActivity.class);
+                i.putExtra("list",horArret);
                 startActivity(i);
                 return true;
             }
@@ -356,14 +364,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    public void readCsv() throws IOException {
+    public List<String[]> readCsv() throws IOException {
         CSVReader reader = new CSVReader(new InputStreamReader(
-                currCtx.getResources().openRawResource(R.raw.l1_mol_oy),
+                currCtx.getResources().openRawResource(R.raw.l1_oy_mol),
                 Charset.forName("windows-1254")),';',
                 CSVParser.DEFAULT_QUOTE_CHARACTER, 0);
 
         List<String[]> listRead = reader.readAll();
-
+        return listRead;
     }
 
 
