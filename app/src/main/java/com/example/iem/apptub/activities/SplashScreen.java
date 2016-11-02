@@ -1,10 +1,10 @@
-package com.example.iem.apptub;
+package com.example.iem.apptub.activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.example.iem.apptub.R;
 
 
 public class SplashScreen extends Activity {

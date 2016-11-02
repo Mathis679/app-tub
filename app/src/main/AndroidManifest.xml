@@ -29,7 +29,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".SplashScreen"
+            android:name=".activities.SplashScreen"
             android:label="@string/title_activity_maps">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,8 +37,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MapsActivity" />
-        <activity android:name=".HorairesActivity"></activity>
+        <activity android:name=".activities.MapsActivity" />
+        <activity android:name=".activities.HorairesActivity"></activity>
     </application>
 
 </manifest>

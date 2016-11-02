@@ -1,4 +1,4 @@
-package com.example.iem.apptub;
+package com.example.iem.apptub.activities;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
 
+import com.example.iem.apptub.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -29,7 +30,7 @@ import com.google.maps.android.kml.KmlLayer;
 
 
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, NavigationView.OnNavigationItemSelectedListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     public int test1;
@@ -50,14 +51,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -66,7 +60,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id = item.getItemId();
+
+                if (id == R.id.ligne1) {
+                    chooseOneLayer(1);
+                } else if (id == R.id.ligne2) {
+                    chooseOneLayer(2);
+                } else if (id == R.id.ligne3) {
+                    chooseOneLayer(3);
+                } else if (id == R.id.ligne4) {
+                    chooseOneLayer(4);
+                } else if (id == R.id.ligne5) {
+                    chooseOneLayer(5);
+                } else if (id == R.id.ligne21) {
+                    chooseOneLayer(21);
+
+                }
+
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                drawer.closeDrawer(GravityCompat.START);
+                return true;
+            }
+        });
 
 
 
@@ -244,11 +262,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        switch(id){
-            case R.id.nav_camera:
-                Toast.makeText(this, "Test", Toast.LENGTH_SHORT).show();
-                break;
-        }
+
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
@@ -258,30 +272,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
 
     public void onClickMenu(View view){
 
