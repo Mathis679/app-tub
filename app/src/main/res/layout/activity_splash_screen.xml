@@ -8,8 +8,20 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@drawable/tub"
+    android:background="@android:color/background_light"
+
     tools:context="com.example.iem.apptub.activities.SplashScreen">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/tub"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true">
+
+
+
+    </LinearLayout>
 
 
 </RelativeLayout>
