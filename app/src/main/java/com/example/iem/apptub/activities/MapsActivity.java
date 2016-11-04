@@ -25,6 +25,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -236,8 +237,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 try {
                     layerChosen = new KmlLayer(mMap, R.raw.ligne1, this);
                     layerChosen.addLayerToMap();
-                    LatLng sydney = new LatLng(46.2,5.2167);
-                    mMap.addMarker(new MarkerOptions().position(sydney).title("Position Bourg-en-Bresse"));
+                    addMarkersForLine(1);
                 }catch(Exception e){
                     e.printStackTrace();
 
@@ -372,6 +372,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         List<String[]> listRead = reader.readAll();
         return listRead;
+    }
+
+    public void addMarkersForLine(int numLine){
+        LatLng sydney = new LatLng(46.2,5.2167);
+        mMap.addMarker(new MarkerOptions().position(sydney).title("Arret").icon(BitmapDescriptorFactory.fromResource(R.mipmap.logobus)));
     }
 
 
