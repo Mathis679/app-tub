@@ -51,6 +51,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Context currCtx;
     private String[] horArret;
     private String[] testDom;
+    List<String[]> csvLines = null;
 
 
     @Override
@@ -58,7 +59,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        //new AsyncArret().execute(this,"http://tub.lebot.xyz/api/stops");
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -117,7 +118,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         currCtx = this;
 
-        List<String[]> csvLines = null;
+
         try {
             csvLines = readCsv();
         } catch (IOException e) {
@@ -137,12 +138,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //            horArret[i] = csvLines.get(1)[i];
 //        }
 
-        RechercheArret("Vennes",csvLines);
 
     }
 
-    public void RechercheArret(String nomLigne,List<String[]> csvLines){
-        String[] horForLine;
+    public String[] RechercheArret(String nomLigne,List<String[]> csvLines){
+        String[] horForLine = null;
         for(int i = 0 ; i < csvLines.size() ; i++){
             if(csvLines.get(i)[0].equals(nomLigne)){
                 horForLine = new String[csvLines.get(i).length];
@@ -152,7 +152,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             }
         }
-
+        return horForLine;
     }
 
 
@@ -172,7 +172,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public boolean onMarkerClick(Marker marker) {
                 Intent i = new Intent(currCtx,HorairesActivity.class);
-                i.putExtra("list",horArret);
+                i.putExtra("list",RechercheArret(marker.getTitle(),csvLines));
+                i.putExtra("nom",marker.getTitle());
                 startActivity(i);
                 return true;
             }
@@ -411,7 +412,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public Bitmap resizeMapIcons(String iconName, int width, int height){
-        Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(),getResources().getIdentifier(iconName, "drawable", getPackageName()));
+        Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(),getResources().getIdentifier(iconName, "mipmap", getPackageName()));
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
         return resizedBitmap;
     }
@@ -421,9 +422,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if(numLine == 1) {
                 if(AsyncArret.arrets.get(i).getLigne().equals("Ligne 1 : Norelan <> Velaine")) {
                     LatLng mark = AsyncArret.arrets.get(i).getCoord();
-                    mMap.addMarker(new MarkerOptions().position(mark).title("Arret").icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("logobus",100,100))));
-                            //.icon(BitmapDescriptorFactory.fromResource(R.mipmap.logobus)));
+                     mMap.addMarker(new MarkerOptions().position(mark).title(AsyncArret.arrets.get(i).getNom()).icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("logobus",100,100))));
+
                 }
+                //Seulement pour la ligne 1 pour l'instant
 //                else if(numLine == 2){
 //                    LatLng sydney = new LatLng(46.2, 5.2167);
 //                    mMap.addMarker(new MarkerOptions().position(sydney).title("Arret").icon(BitmapDescriptorFactory.fromResource(R.mipmap.logobus)));

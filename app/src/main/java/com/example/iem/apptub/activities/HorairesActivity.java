@@ -19,12 +19,14 @@ public class HorairesActivity extends AppCompatActivity {
 
         Intent i = this.getIntent();
 
+        String nom = i.getStringExtra("nom");
+
         String[] list = i.getStringArrayExtra("list");
 
         LinearLayout lla = (LinearLayout) findViewById(R.id.linlayhora);
 
-        setTitle(list[0]);
-        for(int j = 1; j<list.length;j++){
+        setTitle(nom);
+        for(int j = 0; j<list.length;j++){
             TextView tv = new TextView(this);
             tv.setText(list[j]);
             lla.addView(tv);
