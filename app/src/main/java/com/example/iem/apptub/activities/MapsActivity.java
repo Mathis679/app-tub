@@ -48,14 +48,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     ActionBarDrawerToggle menuToogle;
     Context currCtx;
     private String[] horArret;
+    private String[] testDom;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        Intent intent = new Intent(this,Test.class);
-        startActivity(intent);
+        //Intent intent = new Intent(this,Test.class);
+        //startActivity(intent);
         //new AsyncArret().execute(this,"http://tub.lebot.xyz/api/stops");
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -121,13 +122,37 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
-        horArret = new String[csvLines.get(1).length];
-        for(int i=0;i<csvLines.get(1).length;i++){
-            horArret[i] = csvLines.get(1)[i];
-        }
+
+       ;
+//        for(int i=0;i<csvLines.size();i++){
+//            testDom = new String[csvLines.get(i).length];
+//            testDom[i] = csvLines.get(i);
+//            System.out.println("testDom = " + testDom[i]);
+//        }
+
+
+//        horArret = new String[csvLines.get(1).length];
+//        for(int i=0;i<csvLines.get(1).length;i++){
+//            horArret[i] = csvLines.get(1)[i];
+//        }
+
+        RechercheArret("Vennes",csvLines);
 
     }
+
+    public void RechercheArret(String nomLigne,List<String[]> csvLines){
+        String[] horForLine;
+        for(int i = 0 ; i < csvLines.size() ; i++){
+            if(csvLines.get(i)[0].equals(nomLigne)){
+                horForLine = new String[csvLines.get(i).length];
+                for(int j = 1; j < csvLines.get(i).length; j++){
+                    horForLine[j-1] = csvLines.get(i)[j];
+                }
+
+            }
+        }
+    }
+
 
 
 
