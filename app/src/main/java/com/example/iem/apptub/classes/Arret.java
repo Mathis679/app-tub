@@ -14,6 +14,7 @@ public class Arret {
     private String adresse;
     private List<String> horaires;
     private LatLng coord;
+    private String ligne;
 
     public String getNom(){
         return this.nom;
