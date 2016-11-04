@@ -2,6 +2,8 @@ package com.example.iem.apptub.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -150,6 +152,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             }
         }
+
     }
 
 
@@ -407,12 +410,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return listRead;
     }
 
+    public Bitmap resizeMapIcons(String iconName, int width, int height){
+        Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(),getResources().getIdentifier(iconName, "drawable", getPackageName()));
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
+        return resizedBitmap;
+    }
+
     public void addMarkersForLine(int numLine){
         for(int i=0;i<AsyncArret.arrets.size();i++) {
             if(numLine == 1) {
                 if(AsyncArret.arrets.get(i).getLigne().equals("Ligne 1 : Norelan <> Velaine")) {
                     LatLng mark = AsyncArret.arrets.get(i).getCoord();
-                    mMap.addMarker(new MarkerOptions().position(mark).title("Arret").icon(BitmapDescriptorFactory.fromResource(R.mipmap.logobus)));
+                    mMap.addMarker(new MarkerOptions().position(mark).title("Arret").icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("logobus",100,100))));
+                            //.icon(BitmapDescriptorFactory.fromResource(R.mipmap.logobus)));
                 }
 //                else if(numLine == 2){
 //                    LatLng sydney = new LatLng(46.2, 5.2167);
