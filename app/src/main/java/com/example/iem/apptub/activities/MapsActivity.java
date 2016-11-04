@@ -142,13 +142,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public String[] RechercheArret(String nomLigne,List<String[]> csvLines){
-        String[] horForLine = null;
+        String[] horForLine = new String[200];
 
         for(int i = 0 ; i < csvLines.size() ; i++){
             if(csvLines.get(i)[0].equals(nomLigne)){
 
                 for(int j = 1; j < csvLines.get(i).length; j++){
-                    horForLine[horForLine.length] = csvLines.get(i)[j];
+                    horForLine[j-1] = csvLines.get(i)[j];
                 }
 
             }
