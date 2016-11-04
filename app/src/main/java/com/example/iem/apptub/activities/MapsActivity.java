@@ -55,8 +55,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        //Intent intent = new Intent(this,Test.class);
-        //startActivity(intent);
+
         //new AsyncArret().execute(this,"http://tub.lebot.xyz/api/stops");
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -123,7 +122,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             e.printStackTrace();
         }
 
-       ;
+
 //        for(int i=0;i<csvLines.size();i++){
 //            testDom = new String[csvLines.get(i).length];
 //            testDom[i] = csvLines.get(i);
@@ -152,7 +151,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }
     }
-
 
 
 
@@ -275,6 +273,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 try {
                     layerChosen = new KmlLayer(mMap, R.raw.ligne2, this);
                     layerChosen.addLayerToMap();
+                    addMarkersForLine(2);
                 }catch(Exception e){
                     e.printStackTrace();
 
@@ -284,6 +283,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 try {
                     layerChosen = new KmlLayer(mMap, R.raw.ligne3, this);
                     layerChosen.addLayerToMap();
+                    addMarkersForLine(3);
                 }catch(Exception e){
                     e.printStackTrace();
 
@@ -293,6 +293,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 try {
                     layerChosen = new KmlLayer(mMap, R.raw.ligne4, this);
                     layerChosen.addLayerToMap();
+                    addMarkersForLine(4);
                 }catch(Exception e){
                     e.printStackTrace();
 
@@ -302,6 +303,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 try {
                     layerChosen = new KmlLayer(mMap, R.raw.ligne5, this);
                     layerChosen.addLayerToMap();
+                    addMarkersForLine(5);
                 }catch(Exception e){
                     e.printStackTrace();
 
@@ -312,6 +314,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 try {
                     layerChosen = new KmlLayer(mMap, R.raw.ligne6, this);
                     layerChosen.addLayerToMap();
+                    addMarkersForLine(6);
                 }catch(Exception e){
                     e.printStackTrace();
 
@@ -322,6 +325,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 try {
                     layerChosen = new KmlLayer(mMap, R.raw.ligne7, this);
                     layerChosen.addLayerToMap();
+                    addMarkersForLine(7);
                 }catch(Exception e){
                     e.printStackTrace();
 
@@ -332,6 +336,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 try {
                     layerChosen = new KmlLayer(mMap, R.raw.ligne21, this);
                     layerChosen.addLayerToMap();
+                    addMarkersForLine(21);
                 }catch(Exception e){
                     e.printStackTrace();
 
@@ -403,8 +408,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void addMarkersForLine(int numLine){
-        LatLng sydney = new LatLng(46.2,5.2167);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Arret").icon(BitmapDescriptorFactory.fromResource(R.mipmap.logobus)));
+        for(int i=0;i<AsyncArret.arrets.size();i++) {
+            if(numLine == 1) {
+                if(AsyncArret.arrets.get(i).getLigne().equals("Ligne 1 : Norelan <> Velaine")) {
+                    LatLng mark = AsyncArret.arrets.get(i).getCoord();
+                    mMap.addMarker(new MarkerOptions().position(mark).title("Arret").icon(BitmapDescriptorFactory.fromResource(R.mipmap.logobus)));
+                }
+//                else if(numLine == 2){
+//                    LatLng sydney = new LatLng(46.2, 5.2167);
+//                    mMap.addMarker(new MarkerOptions().position(sydney).title("Arret").icon(BitmapDescriptorFactory.fromResource(R.mipmap.logobus)));
+//                }else if(numLine == 3){
+//                    LatLng sydney = new LatLng(46.2, 5.2167);
+//                    mMap.addMarker(new MarkerOptions().position(sydney).title("Arret").icon(BitmapDescriptorFactory.fromResource(R.mipmap.logobus)));
+//                }else if(numLine == 4){
+//                    LatLng sydney = new LatLng(46.2, 5.2167);
+//                    mMap.addMarker(new MarkerOptions().position(sydney).title("Arret").icon(BitmapDescriptorFactory.fromResource(R.mipmap.logobus)));
+//                }else if(numLine == 5){
+//                    LatLng sydney = new LatLng(46.2, 5.2167);
+//                    mMap.addMarker(new MarkerOptions().position(sydney).title("Arret").icon(BitmapDescriptorFactory.fromResource(R.mipmap.logobus)));
+//                }else if(numLine == 6){
+//                    LatLng sydney = new LatLng(46.2, 5.2167);
+//                    mMap.addMarker(new MarkerOptions().position(sydney).title("Arret").icon(BitmapDescriptorFactory.fromResource(R.mipmap.logobus)));
+//                }else if(numLine == 7){
+//                    LatLng sydney = new LatLng(46.2, 5.2167);
+//                    mMap.addMarker(new MarkerOptions().position(sydney).title("Arret").icon(BitmapDescriptorFactory.fromResource(R.mipmap.logobus)));
+//                }else if(numLine == 21){
+//                    LatLng sydney = new LatLng(46.2, 5.2167);
+//                    mMap.addMarker(new MarkerOptions().position(sydney).title("Arret").icon(BitmapDescriptorFactory.fromResource(R.mipmap.logobus)));
+//                }
+            }
+        }
     }
 
 

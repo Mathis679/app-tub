@@ -13,7 +13,7 @@ public class Test extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
 
-        ListView listView = (ListView) findViewById(R.id.listView1);
-        new AsyncArret().execute(this,"http://tub.lebot.xyz/api/stops",listView);
+
+        new AsyncArret().execute(this,"http://tub.lebot.xyz/api/stopgroups");
     }
 }

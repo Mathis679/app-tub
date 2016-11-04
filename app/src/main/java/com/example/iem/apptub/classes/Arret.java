@@ -16,6 +16,22 @@ public class Arret {
     private LatLng coord;
     private String ligne;
 
+    public Arret(String nom, String ligne, LatLng coord ){
+        this.nom = nom;
+        this.ligne = ligne;
+        this.coord = coord;
+    }
+
+    public String getLigne() {
+        return ligne;
+    }
+
+    public void setLigne(String ligne) {
+        this.ligne = ligne;
+    }
+
+
+
     public String getNom(){
         return this.nom;
     }

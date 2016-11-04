@@ -6,6 +6,8 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 import com.example.iem.apptub.R;
+import com.example.iem.apptub.classes.Arret;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,6 +33,7 @@ public class AsyncArret extends AsyncTask<Object, Integer, String> {
     String data = "";
     Context cont;
     ListView listView;
+    static ArrayList<Arret> arrets;
     private static String[]URL;
 
 
@@ -38,7 +41,7 @@ public class AsyncArret extends AsyncTask<Object, Integer, String> {
     protected String doInBackground(Object[] urls) {
         URL tmpUrl=null;
         cont = (Context)urls[0];
-        listView = (ListView) urls[2];
+
         //infoServeurs = (ArrayList<InfoServeur>)urls[3];
 
 
@@ -74,27 +77,36 @@ public class AsyncArret extends AsyncTask<Object, Integer, String> {
     }
 
     protected void onPostExecute(String Html) {
+        arrets = new ArrayList<>();
         try {
             JSONObject reader2 = new JSONObject(Html);
             System.out.println("reader2Dom = " + reader2);
-            JSONArray jsonArray = reader2.optJSONArray("stops");
+            JSONArray jsonArray = reader2.optJSONArray("stopgroups");
 
             ArrayList<HashMap<String,String>> listItem = new ArrayList<HashMap<String, String>>();
             HashMap<String, String> map;
             URL = new String[jsonArray.length()];
 
             for(int i = 0; i <jsonArray.length();i++){
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                URL[i] = jsonObject.optString("name").toString();
 
-                map = new HashMap<String,String>();
-                map.put("name",URL[i]);
-                listItem.add(map);
+                JSONObject jsObSG = jsonArray.getJSONObject(i);
+                if(jsObSG.get("way").equals("O")){
+                    JSONObject jsObLine = jsObSG.getJSONObject("line");
+                    JSONObject jsObStop = jsObSG.getJSONObject("stop");
+                    Arret arret = new Arret(jsObStop.getString("name"),jsObLine.getString("label"), new LatLng(jsObStop.getDouble("latitude"),jsObStop.getDouble("longitude")));
+                    arrets.add(arret);
+                }
+
+                //URL[i] = jsonObject.optString("name").toString();
+
+                //map = new HashMap<String,String>();
+                //map.put("name",URL[i]);
+                //listItem.add(map);
             }
 
-            SimpleAdapter mSchedule = new SimpleAdapter(cont ,listItem, R.layout.activity_test,
-                    new String[]{"name"}, new int[]{R.id.textView5});
-            listView.setAdapter(mSchedule);
+//            SimpleAdapter mSchedule = new SimpleAdapter(cont ,listItem, R.layout.activity_test,
+//                    new String[]{"name"}, new int[]{R.id.textView5});
+//            listView.setAdapter(mSchedule);
 
         } catch (JSONException e) {
             e.printStackTrace();
