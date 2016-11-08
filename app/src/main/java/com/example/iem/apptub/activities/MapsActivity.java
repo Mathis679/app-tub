@@ -529,38 +529,79 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void addMarkersForLine(int numLine){
         for(int i=0;i<AsyncArret.arrets.size();i++) {
             if(numLine == 1) {
-                if(AsyncArret.arrets.get(i).getLigne().equals("Ligne 1 : Norelan <> Velaine")) {
+                if (AsyncArret.arrets.get(i).getLigne().equals("Ligne 1 : Norelan <> Velaine")) {
                     LatLng mark = AsyncArret.arrets.get(i).getCoord();
-                     mMap.addMarker(new MarkerOptions().position(mark)
-                             .title(AsyncArret.arrets.get(i).getNom())
-                             .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("logobus",100,100))))
-                             .setSnippet("Ligne 1 : Norelan <> Velaine");
+                    mMap.addMarker(new MarkerOptions().position(mark)
+                            .title(AsyncArret.arrets.get(i).getNom())
+                            .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("logobus", 100, 100))))
+                            .setSnippet("Ligne 1 : Norelan <> Velaine");
 
                 }
-                //Seulement pour la ligne 1 pour l'instant
-//                else if(numLine == 2){
-//                    LatLng sydney = new LatLng(46.2, 5.2167);
-//                    mMap.addMarker(new MarkerOptions().position(sydney).title("Arret").icon(BitmapDescriptorFactory.fromResource(R.mipmap.logobus)));
-//                }else if(numLine == 3){
-//                    LatLng sydney = new LatLng(46.2, 5.2167);
-//                    mMap.addMarker(new MarkerOptions().position(sydney).title("Arret").icon(BitmapDescriptorFactory.fromResource(R.mipmap.logobus)));
-//                }else if(numLine == 4){
-//                    LatLng sydney = new LatLng(46.2, 5.2167);
-//                    mMap.addMarker(new MarkerOptions().position(sydney).title("Arret").icon(BitmapDescriptorFactory.fromResource(R.mipmap.logobus)));
-//                }else if(numLine == 5){
-//                    LatLng sydney = new LatLng(46.2, 5.2167);
-//                    mMap.addMarker(new MarkerOptions().position(sydney).title("Arret").icon(BitmapDescriptorFactory.fromResource(R.mipmap.logobus)));
-//                }else if(numLine == 6){
-//                    LatLng sydney = new LatLng(46.2, 5.2167);
-//                    mMap.addMarker(new MarkerOptions().position(sydney).title("Arret").icon(BitmapDescriptorFactory.fromResource(R.mipmap.logobus)));
-//                }else if(numLine == 7){
-//                    LatLng sydney = new LatLng(46.2, 5.2167);
-//                    mMap.addMarker(new MarkerOptions().position(sydney).title("Arret").icon(BitmapDescriptorFactory.fromResource(R.mipmap.logobus)));
-//                }else if(numLine == 21){
-//                    LatLng sydney = new LatLng(46.2, 5.2167);
-//                    mMap.addMarker(new MarkerOptions().position(sydney).title("Arret").icon(BitmapDescriptorFactory.fromResource(R.mipmap.logobus)));
-//                }
+            }else if(numLine == 2){
+                if (AsyncArret.arrets.get(i).getLigne().equals("Ligne 2 : Norelan <> Ainterexpo")) {
+                    LatLng mark = AsyncArret.arrets.get(i).getCoord();
+                    mMap.addMarker(new MarkerOptions().position(mark)
+                            .title(AsyncArret.arrets.get(i).getNom())
+                            .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("logobus", 100, 100))))
+                            .setSnippet("Ligne 2 : Norelan <> Ainterexpo");
+
+                }
+            }else if(numLine == 3){
+                if (AsyncArret.arrets.get(i).getLigne().equals("Ligne 3 : Péronnas Blés d'Or <> Alagnier")) {
+                    LatLng mark = AsyncArret.arrets.get(i).getCoord();
+                    mMap.addMarker(new MarkerOptions().position(mark)
+                            .title(AsyncArret.arrets.get(i).getNom())
+                            .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("logobus", 100, 100))))
+                            .setSnippet("Ligne 3 : Péronnas Blés d'Or <> Alagnier");
+
+                }
+            }else if(numLine == 4){
+                if (AsyncArret.arrets.get(i).getLigne().equals("Ligne 4 : St Denis Collège <> Clinique Convert/EREA La Chagne")) {
+                    LatLng mark = AsyncArret.arrets.get(i).getCoord();
+                    mMap.addMarker(new MarkerOptions().position(mark)
+                            .title(AsyncArret.arrets.get(i).getNom())
+                            .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("logobus", 100, 100))))
+                            .setSnippet("Ligne 4 : St Denis Collège <> Clinique Convert/EREA La Chagne");
+
+                }
+            }else if(numLine == 5){
+                if (AsyncArret.arrets.get(i).getLigne().equals("Ligne 5 : St Denis Collège <> St Denis Collège")) {
+                    LatLng mark = AsyncArret.arrets.get(i).getCoord();
+                    mMap.addMarker(new MarkerOptions().position(mark)
+                            .title(AsyncArret.arrets.get(i).getNom())
+                            .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("logobus", 100, 100))))
+                            .setSnippet("Ligne 5 : St Denis Collège <> St Denis Collège");
+
+                }
+            }else if(numLine == 6){
+                if (AsyncArret.arrets.get(i).getLigne().equals("Ligne 6 : Viriat Caronniers <> Ainterexpo")) {
+                    LatLng mark = AsyncArret.arrets.get(i).getCoord();
+                    mMap.addMarker(new MarkerOptions().position(mark)
+                            .title(AsyncArret.arrets.get(i).getNom())
+                            .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("logobus", 100, 100))))
+                            .setSnippet("Ligne 6 : Viriat Caronniers <> Ainterexpo");
+
+                }
+            }else if(numLine == 7){
+                if (AsyncArret.arrets.get(i).getLigne().equals("Ligne 7 : Viriat Caronniers <> Carré Amiot")) {
+                    LatLng mark = AsyncArret.arrets.get(i).getCoord();
+                    mMap.addMarker(new MarkerOptions().position(mark)
+                            .title(AsyncArret.arrets.get(i).getNom())
+                            .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("logobus", 100, 100))))
+                            .setSnippet("Ligne 7 : Viriat Caronniers <> Carré Amiot");
+
+                }
+            }else if(numLine == 21){
+                if (AsyncArret.arrets.get(i).getLigne().equals("Ligne 21 : Peloux Gare <> Sources")) {
+                    LatLng mark = AsyncArret.arrets.get(i).getCoord();
+                    mMap.addMarker(new MarkerOptions().position(mark)
+                            .title(AsyncArret.arrets.get(i).getNom())
+                            .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("logobus", 100, 100))))
+                            .setSnippet("Ligne 21 : Peloux Gare <> Sources");
+
+                }
             }
+
         }
     }
 
