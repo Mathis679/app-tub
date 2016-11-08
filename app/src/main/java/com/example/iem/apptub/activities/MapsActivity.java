@@ -170,7 +170,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 13);
         mMap.animateCamera(cameraUpdate);
 
-
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
