@@ -21,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.iem.apptub.R;
@@ -173,15 +174,60 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
+                marker.showInfoWindow();
+//                Intent i = new Intent(currCtx,HorairesActivity.class);
+//                i.putExtra("list",RechercheArret(marker.getTitle(),csvLines));
+//                i.putExtra("nom",marker.getTitle());
+//                i.putExtra("sens",marker.getSnippet());
+//                startActivity(i);
+                return true;
+            }
+        });
+
+        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+            @Override
+            public View getInfoWindow(Marker marker) {
+                return null;
+            }
+
+            @Override
+            public View getInfoContents(Marker marker) {
+
+                View v = getLayoutInflater().inflate(R.layout.window_marker, null);
+
+                LatLng latLng = marker.getPosition();
+
+                TextView tvTitle = (TextView) v.findViewById(R.id.title_window);
+
+                TextView tvLat = (TextView) v.findViewById(R.id.tv_lat);
+
+                TextView tvLng = (TextView) v.findViewById(R.id.tv_lng);
+
+                TextView tvHor = (TextView) v.findViewById(R.id.tv_show_hor);
+
+                final Marker copyMarker = marker;
+
+
+                tvLat.setText("Latitude:" + latLng.latitude);
+
+                tvLng.setText("Longitude:"+ latLng.longitude);
+
+                tvTitle.setText(copyMarker.getTitle());
+
+                return v;
+            }
+        });
+
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
                 Intent i = new Intent(currCtx,HorairesActivity.class);
                 i.putExtra("list",RechercheArret(marker.getTitle(),csvLines));
                 i.putExtra("nom",marker.getTitle());
                 i.putExtra("sens",marker.getSnippet());
                 startActivity(i);
-                return true;
             }
         });
-
 
 
     }
@@ -404,6 +450,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+
+
     public List<String[]> readCsv() throws IOException {
         CSVReader reader = new CSVReader(new InputStreamReader(
                 currCtx.getResources().openRawResource(R.raw.l1_oy_mol),
@@ -431,8 +479,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         new AsyncArret().execute(MapsActivity.this,"http://tub.lebot.xyz/api/stopgroups");
                         Toast.makeText(MapsActivity.this, "Les données ont été rechargées.", Toast.LENGTH_SHORT).show();
                         dialog.cancel();
-
-                        //MapsActivity.this.finish();
+                        MapsActivity.this.onMapReady(mMap);
                     }
                 })
                 .setNegativeButton("Non",new DialogInterface.OnClickListener() {

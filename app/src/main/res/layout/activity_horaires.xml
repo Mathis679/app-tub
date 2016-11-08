@@ -5,10 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.iem.apptub.activities.HorairesActivity">
+    tools:context="com.example.iem.apptub.activities.HorairesActivity"
+    android:background="#adebad">
 
 
 
@@ -21,7 +22,9 @@
         android:layout_marginEnd="180dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true">
+        android:layout_alignParentEnd="true"
+        android:background="@android:color/background_light"
+        android:padding="5dp">
         <TextView
             android:id="@+id/tv_aller"
             android:layout_width="wrap_content"
@@ -53,7 +56,9 @@
         android:layout_marginStart="180dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:background="@android:color/background_light"
+        android:padding="5dp">
         <TextView
             android:id="@+id/tv_ret"
             android:layout_width="wrap_content"
