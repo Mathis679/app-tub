@@ -23,7 +23,11 @@ public class HorairesActivity extends AppCompatActivity {
 
         String[] list = i.getStringArrayExtra("list");
 
+        String sens = i.getStringExtra("sens");
+
         LinearLayout lla = (LinearLayout) findViewById(R.id.linlayhora);
+
+        TextView tvAller = (TextView) findViewById(R.id.tv_aller);
 
         if(nom == null || list == null || list.length == 0){
             setTitle("Connais pas");
@@ -31,11 +35,15 @@ public class HorairesActivity extends AppCompatActivity {
             tv.setText("Pas d'horaires renseigné pour cet arret");
             lla.addView(tv);
         }else {
+            tvAller.setText(sens);
             setTitle(nom);
             for (int j = 0; j < list.length; j++) {
-                TextView tv = new TextView(this);
-                tv.setText(list[j]);
-                lla.addView(tv);
+                if(list[j] != null){
+                    TextView tv = new TextView(this);
+                    tv.setText(list[j]);
+                    lla.addView(tv);
+                }
+
             }
         }
 

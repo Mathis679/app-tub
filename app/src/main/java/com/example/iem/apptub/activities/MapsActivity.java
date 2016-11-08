@@ -147,7 +147,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         String[] horForLine = new String[200];
 
         for(int i = 0 ; i < csvLines.size() ; i++){
-            if(csvLines.get(i)[0].equals(nomLigne)){
+            if(csvLines.get(i)[0].replace("Ã©","é").replace("Ã¨","è").replace("Ã´","ô").equalsIgnoreCase(nomLigne)){
 
                 for(int j = 1; j < csvLines.get(i).length; j++){
                     horForLine[j-1] = csvLines.get(i)[j];
@@ -157,7 +157,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         return horForLine;
     }
-
 
 
     @Override
@@ -177,6 +176,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Intent i = new Intent(currCtx,HorairesActivity.class);
                 i.putExtra("list",RechercheArret(marker.getTitle(),csvLines));
                 i.putExtra("nom",marker.getTitle());
+                i.putExtra("sens",marker.getSnippet());
                 startActivity(i);
                 return true;
             }
@@ -463,7 +463,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if(numLine == 1) {
                 if(AsyncArret.arrets.get(i).getLigne().equals("Ligne 1 : Norelan <> Velaine")) {
                     LatLng mark = AsyncArret.arrets.get(i).getCoord();
-                     mMap.addMarker(new MarkerOptions().position(mark).title(AsyncArret.arrets.get(i).getNom()).icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("logobus",100,100))));
+                     mMap.addMarker(new MarkerOptions().position(mark)
+                             .title(AsyncArret.arrets.get(i).getNom())
+                             .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("logobus",100,100))))
+                             .setSnippet("Ligne 1 : Norelan <> Velaine");
 
                 }
                 //Seulement pour la ligne 1 pour l'instant

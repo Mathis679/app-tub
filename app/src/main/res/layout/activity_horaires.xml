@@ -11,9 +11,10 @@
     tools:context="com.example.iem.apptub.activities.HorairesActivity">
 
 
+
     <LinearLayout
         android:id="@+id/linlayhoraller"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginRight="180dp"
@@ -21,6 +22,13 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true">
+        <TextView
+            android:id="@+id/tv_aller"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="15dp"
+            android:text="ligne1"/>
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -35,9 +43,10 @@
         </ScrollView>
     </LinearLayout>
 
+
     <LinearLayout
         android:id="@+id/linlayhorretour"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="180dp"
@@ -45,7 +54,13 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
-
+        <TextView
+            android:id="@+id/tv_ret"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="15dp"
+            android:text="Pas de sens défini"/>
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
