@@ -2,6 +2,7 @@ package com.example.iem.apptub.activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationManager;
 import android.location.LocationProvider;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -30,11 +32,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.iem.apptub.R;
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -66,6 +68,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private String[] horArret;
     private String[] testDom;
     List<String[]> csvLines = null;
+    View mapView;
 
     private static int requestInt;
 
@@ -148,6 +151,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //            horArret[i] = csvLines.get(1)[i];
 //        }
 
+        mapView = mapFragment.getView();
 
     }
 
@@ -235,6 +239,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.setMyLocationEnabled(true);
         else askPermission();
 
+
+        if (mapView != null &&
+                mapView.findViewById(Integer.parseInt("1")) != null) {
+            // Get the button view
+            View locationButton = ((View) mapView.findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
+            // and next place it, on bottom right (as Google Maps app)
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
+            // position on right bottom
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+            layoutParams.setMargins(0, 0, 30, 30);
+        }
     }
 
     public void addAllLayer(){
@@ -454,6 +470,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         drawer.openDrawer(GravityCompat.START);
 
     }
+
+
 
     public List<String[]> readCsv() throws IOException {
         CSVReader reader = new CSVReader(new InputStreamReader(
