@@ -22,6 +22,7 @@
 
 
 
+
         <ImageButton
             android:id="@+id/button"
             android:layout_width="50dp"
@@ -29,6 +30,17 @@
             android:src="@drawable/menu_map"
             android:background="@color/wallet_holo_blue_light"
             android:onClick="onClickMenu"
+
+            />
+
+        <ImageButton
+            android:id="@+id/button1"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/quantum_ic_refresh_white_24"
+            android:background="@color/wallet_holo_blue_light"
+            android:onClick="onClickRefresh"
+            android:layout_gravity="right"
 
             />
 

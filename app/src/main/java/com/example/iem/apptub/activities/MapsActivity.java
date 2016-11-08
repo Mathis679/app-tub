@@ -1,6 +1,7 @@
 package com.example.iem.apptub.activities;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,6 +14,7 @@ import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -411,6 +413,44 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         List<String[]> listRead = reader.readAll();
         return listRead;
     }
+
+    public void onClickRefresh(View view){
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                MapsActivity.this);
+
+        // set title
+        alertDialogBuilder.setTitle("Rafraîchissement des données");
+
+        // set dialog message
+        alertDialogBuilder
+                .setMessage("Souhaitez vous rafraîchir les données")
+                .setCancelable(false)
+                .setPositiveButton("Oui",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        new AsyncArret().execute(MapsActivity.this,"http://tub.lebot.xyz/api/stopgroups");
+                        Toast.makeText(MapsActivity.this, "Les données ont été rechargées.", Toast.LENGTH_SHORT).show();
+                        dialog.cancel();
+
+                        //MapsActivity.this.finish();
+                    }
+                })
+                .setNegativeButton("Non",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        // if this button is clicked, just close
+                        // the dialog box and do nothing
+                        dialog.cancel();
+                    }
+                });
+
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
+
+    }
+
 
     public Bitmap resizeMapIcons(String iconName, int width, int height){
         Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(),getResources().getIdentifier(iconName, "mipmap", getPackageName()));
