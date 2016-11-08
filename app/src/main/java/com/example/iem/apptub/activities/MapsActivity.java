@@ -166,7 +166,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         addAllLayer();
 
-        LatLng latLng = new LatLng(46.2,5.2167 );
+        LatLng latLng = new LatLng(46.205104,5.22534);
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 13);
         mMap.animateCamera(cameraUpdate);
 
@@ -175,11 +175,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public boolean onMarkerClick(Marker marker) {
                 marker.showInfoWindow();
-//                Intent i = new Intent(currCtx,HorairesActivity.class);
-//                i.putExtra("list",RechercheArret(marker.getTitle(),csvLines));
-//                i.putExtra("nom",marker.getTitle());
-//                i.putExtra("sens",marker.getSnippet());
-//                startActivity(i);
                 return true;
             }
         });
