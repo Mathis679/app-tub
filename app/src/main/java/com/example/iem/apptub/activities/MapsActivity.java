@@ -1,22 +1,31 @@
 package com.example.iem.apptub.activities;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
+import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.iem.apptub.R;
+import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -45,6 +55,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -55,6 +66,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private String[] horArret;
     private String[] testDom;
     List<String[]> csvLines = null;
+
+    private static int requestInt;
+
 
 
     @Override
@@ -96,20 +110,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     chooseOneLayer(4);
                 } else if (id == R.id.ligne5) {
                     chooseOneLayer(5);
-                }
-
-                else if (id == R.id.ligne6) {
+                } else if (id == R.id.ligne6) {
                     chooseOneLayer(6);
-                }
-
-                else if (id == R.id.ligne7) {
+                } else if (id == R.id.ligne7) {
                     chooseOneLayer(7);
-                }
-
-
-                else if (id == R.id.ligne21) {
+                } else if (id == R.id.ligne21) {
                     chooseOneLayer(21);
-                }else if (id == R.id.all) {
+                } else if (id == R.id.all) {
                     addAllLayer();
                 }
 
@@ -170,6 +177,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 13);
         mMap.animateCamera(cameraUpdate);
 
+
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
@@ -223,6 +231,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
+        if(checkPermission())
+            mMap.setMyLocationEnabled(true);
+        else askPermission();
 
     }
 
@@ -444,8 +455,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-
-
     public List<String[]> readCsv() throws IOException {
         CSVReader reader = new CSVReader(new InputStreamReader(
                 currCtx.getResources().openRawResource(R.raw.l1_oy_mol),
@@ -536,6 +545,45 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }
     }
+
+    private boolean checkPermission() {
+        Log.d("lol", "checkPermission()");
+        // Ask for permission if it wasn't granted yet
+        return (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED );
+    }
+    // Asks for permission
+    private void askPermission() {
+        Log.d("lol", "askPermission()");
+        ActivityCompat.requestPermissions(
+                this,
+                new String[] { Manifest.permission.ACCESS_FINE_LOCATION },
+                requestInt
+        );
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        Log.d("lol", "onRequestPermissionsResult()");
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == requestInt) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted
+                if (checkPermission())
+                    mMap.setMyLocationEnabled(true);
+
+            } else {
+                // Permission denied
+                Toast.makeText(this,"permission denied",Toast.LENGTH_LONG);
+
+            }
+        }
+
+    }
+
+
+
 
 
 }

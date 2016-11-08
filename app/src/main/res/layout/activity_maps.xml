@@ -41,6 +41,7 @@
             android:background="@color/wallet_holo_blue_light"
             android:onClick="onClickRefresh"
             android:layout_gravity="right"
+            android:visibility="gone"
 
             />
 
