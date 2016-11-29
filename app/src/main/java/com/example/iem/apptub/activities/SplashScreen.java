@@ -14,7 +14,7 @@ public class SplashScreen extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-        new AsyncArret().execute(this,"http://tub.lebot.xyz/api/stopgroups");
+        new AsyncArret().execute(this,"http://tub.bourgmapper.fr/api/stopgroups");
         Thread timerThread = new Thread(){
             public void run(){
                 try{

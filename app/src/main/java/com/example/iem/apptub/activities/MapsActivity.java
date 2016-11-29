@@ -182,6 +182,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.animateCamera(cameraUpdate);
 
 
+        LatLng mark = new LatLng(46.205104,5.22534);
+        mMap.addMarker(new MarkerOptions().position(mark)
+                .title("Nom arret")
+                .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("logobus", 100, 100))))
+                .setSnippet("Ligne 1 : Norelan <> Velaine");
+
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
@@ -497,7 +503,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .setCancelable(false)
                 .setPositiveButton("Oui",new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int id) {
-                        new AsyncArret().execute(MapsActivity.this,"http://tub.lebot.xyz/api/stopgroups");
+                        new AsyncArret().execute(MapsActivity.this,"http://tub.bourgmapper.fr/api/stopgroups");
                         Toast.makeText(MapsActivity.this, "Les données ont été rechargées.", Toast.LENGTH_SHORT).show();
                         dialog.cancel();
                         MapsActivity.this.onMapReady(mMap);
