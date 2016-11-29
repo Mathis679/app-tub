@@ -39,6 +39,7 @@ public class AsyncArret extends AsyncTask<Object, Integer, String[]> {
 
     @Override
     protected String[] doInBackground(Object[] urls) {
+
         URL tmpUrl=null;
         cont = (Context)urls[0];
 
@@ -109,9 +110,8 @@ public class AsyncArret extends AsyncTask<Object, Integer, String[]> {
     protected void onPostExecute(String[] datas) {
 
 
-
-
-
+        parseStopGroups(datas[0]);
+        parseStops(datas[1]);
 
 
         //A MODIFIER
@@ -150,6 +150,66 @@ public class AsyncArret extends AsyncTask<Object, Integer, String[]> {
 //        } catch (JSONException e) {
 //            e.printStackTrace();
 //        }
+    }
+
+    private void parseStopGroups(String data){
+        arrets = new ArrayList<>();
+        try {
+            JSONObject reader2 = new JSONObject(data);
+            System.out.println("reader2Dom = " + reader2);
+            JSONArray jsonArray = reader2.optJSONArray("stopgroups");
+
+
+            URL = new String[jsonArray.length()];
+
+            for(int i = 0; i <jsonArray.length();i++){
+
+                JSONObject jsObSG = jsonArray.getJSONObject(i);
+                if(jsObSG.get("way").equals("O")){
+
+                    Arret arret = new Arret(jsObSG.getInt("stop_id"),jsObSG.getInt("line_id"));
+                    arrets.add(arret);
+                }
+
+
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void parseStops(String data){
+
+        try {
+            JSONObject reader2 = new JSONObject(data);
+            System.out.println("reader2Dom = " + reader2);
+            JSONArray jsonArray = reader2.optJSONArray("stops");
+
+
+            URL = new String[jsonArray.length()];
+
+            for(int i = 0; i <jsonArray.length();i++){
+
+                JSONObject jsObS = jsonArray.getJSONObject(i);
+
+                for(int j=0; j<arrets.size(); j++){
+
+
+                    if(jsObS.getInt("id") == arrets.get(j).getId()){
+
+                        arrets.get(j).setNom(jsObS.getString("label"));
+                        arrets.get(j).setCoord(new LatLng(jsObS.getDouble("latitude"),jsObS.getDouble("longitude")));
+
+                    }
+
+                }
+
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 }

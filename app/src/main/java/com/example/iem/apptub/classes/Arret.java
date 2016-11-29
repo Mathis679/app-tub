@@ -15,6 +15,41 @@ public class Arret {
     private List<String> horaires;
     private LatLng coord;
     private String ligne;
+    private int id;
+    private int idLine;
+
+    public Arret(int id, int idLine ){
+        this.id = id;
+        this.idLine = idLine;
+
+
+        switch(idLine){
+            case 1:
+                this.ligne = "Ligne 1 : Norelan <> Velaine";
+                break;
+            case 2:
+                this.ligne = "Ligne 2 : Norelan <> Ainterexpo";
+                break;
+            case 3:
+                this.ligne = "Ligne 3 : Péronnas Blés d'Or <> Alagnier";
+                break;
+            case 4:
+                this.ligne = "Ligne 4 : St Denis Collège <> Clinique Convert/EREA La Chagne";
+                break;
+            case 5:
+                this.ligne = "Ligne 5 : St Denis Collège <> St Denis Collège";
+                break;
+            case 6:
+                this.ligne = "Ligne 6 : Viriat Caronniers <> Ainterexpo";
+                break;
+            case 7:
+                this.ligne = "Ligne 7 : Viriat Caronniers <> Carré Amiot";
+                break;
+            case 8:
+                this.ligne = "Ligne 21 : Peloux Gare <> Sources";
+                break;
+        }
+    }
 
     public Arret(String nom, String ligne, LatLng coord ){
         this.nom = nom;
@@ -68,4 +103,8 @@ public class Arret {
             this.horaires.clear();
         this.horaires.addAll(horaires);
     }
+
+    public int getId(){ return this.id; }
+
+    public int getIdLine(){ return this.idLine; }
 }

@@ -503,7 +503,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .setCancelable(false)
                 .setPositiveButton("Oui",new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int id) {
-                        new AsyncArret().execute(MapsActivity.this,"http://tub.bourgmapper.fr/api/stopgroups");
+                        new AsyncArret().execute(MapsActivity.this,"https://dev.tub.bourgmapper.fr/api/stopgroups","https://dev.tub.bourgmapper.fr/api/stops");
                         Toast.makeText(MapsActivity.this, "Les données ont été rechargées.", Toast.LENGTH_SHORT).show();
                         dialog.cancel();
                         MapsActivity.this.onMapReady(mMap);
