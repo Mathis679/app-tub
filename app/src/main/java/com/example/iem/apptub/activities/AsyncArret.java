@@ -26,7 +26,7 @@ import java.util.HashMap;
  * Created by iem on 04/11/2016.
  */
 
-public class AsyncArret extends AsyncTask<Object, Integer, String> {
+public class AsyncArret extends AsyncTask<Object, Integer, String[]> {
 
     BufferedReader in;
     String Html="";
@@ -38,9 +38,11 @@ public class AsyncArret extends AsyncTask<Object, Integer, String> {
 
 
     @Override
-    protected String doInBackground(Object[] urls) {
+    protected String[] doInBackground(Object[] urls) {
         URL tmpUrl=null;
         cont = (Context)urls[0];
+
+        String[] datas = new String[2];
 
         //infoServeurs = (ArrayList<InfoServeur>)urls[3];
 
@@ -61,6 +63,7 @@ public class AsyncArret extends AsyncTask<Object, Integer, String> {
                 }
 
                 in.close();
+                datas[0] = Html;
             }
 
 
@@ -69,48 +72,84 @@ public class AsyncArret extends AsyncTask<Object, Integer, String> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return Html;
+
+
+        try {
+
+            Html = "";
+            tmpUrl= new URL((String)urls[2]); // revoir
+            HttpURLConnection urlConnection = (HttpURLConnection) tmpUrl.openConnection();
+            if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+
+
+                while ((data = in.readLine()) != null) {
+
+                    Html += data;
+
+                }
+
+                in.close();
+                datas[1] = Html;
+            }
+
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return datas;
     }
 
     protected void onProgressUpdate(Integer... progress) {
 
     }
 
-    protected void onPostExecute(String Html) {
-        arrets = new ArrayList<>();
-        try {
-            JSONObject reader2 = new JSONObject(Html);
-            System.out.println("reader2Dom = " + reader2);
-            JSONArray jsonArray = reader2.optJSONArray("stopgroups");
+    protected void onPostExecute(String[] datas) {
 
-            ArrayList<HashMap<String,String>> listItem = new ArrayList<HashMap<String, String>>();
-            HashMap<String, String> map;
-            URL = new String[jsonArray.length()];
 
-            for(int i = 0; i <jsonArray.length();i++){
 
-                JSONObject jsObSG = jsonArray.getJSONObject(i);
-                if(jsObSG.get("way").equals("O")){
-                    JSONObject jsObLine = jsObSG.getJSONObject("line");
-                    JSONObject jsObStop = jsObSG.getJSONObject("stop");
-                    Arret arret = new Arret(jsObStop.getString("name"),jsObLine.getString("label"), new LatLng(jsObStop.getDouble("latitude"),jsObStop.getDouble("longitude")));
-                    arrets.add(arret);
-                }
 
-                //URL[i] = jsonObject.optString("name").toString();
 
-                //map = new HashMap<String,String>();
-                //map.put("name",URL[i]);
-                //listItem.add(map);
-            }
 
-//            SimpleAdapter mSchedule = new SimpleAdapter(cont ,listItem, R.layout.activity_test,
-//                    new String[]{"name"}, new int[]{R.id.textView5});
-//            listView.setAdapter(mSchedule);
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        //A MODIFIER
+
+//        arrets = new ArrayList<>();
+//        try {
+//            JSONObject reader2 = new JSONObject(Html);
+//            System.out.println("reader2Dom = " + reader2);
+//            JSONArray jsonArray = reader2.optJSONArray("stopgroups");
+//
+//            ArrayList<HashMap<String,String>> listItem = new ArrayList<HashMap<String, String>>();
+//            HashMap<String, String> map;
+//            URL = new String[jsonArray.length()];
+//
+//            for(int i = 0; i <jsonArray.length();i++){
+//
+//                JSONObject jsObSG = jsonArray.getJSONObject(i);
+//                if(jsObSG.get("way").equals("O")){
+//                    JSONObject jsObLine = jsObSG.getJSONObject("line");
+//                    JSONObject jsObStop = jsObSG.getJSONObject("stop");
+//                    Arret arret = new Arret(jsObStop.getString("name"),jsObLine.getString("label"), new LatLng(jsObStop.getDouble("latitude"),jsObStop.getDouble("longitude")));
+//                    arrets.add(arret);
+//                }
+//
+//                //URL[i] = jsonObject.optString("name").toString();
+//
+//                //map = new HashMap<String,String>();
+//                //map.put("name",URL[i]);
+//                //listItem.add(map);
+//            }
+//
+////            SimpleAdapter mSchedule = new SimpleAdapter(cont ,listItem, R.layout.activity_test,
+////                    new String[]{"name"}, new int[]{R.id.textView5});
+////            listView.setAdapter(mSchedule);
+//
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
     }
 
 }
