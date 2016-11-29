@@ -182,12 +182,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.animateCamera(cameraUpdate);
 
 
-        LatLng mark = new LatLng(46.205104,5.22534);
-        mMap.addMarker(new MarkerOptions().position(mark)
-                .title("Nom arret")
-                .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("logobus", 100, 100))))
-                .setSnippet("Ligne 1 : Norelan <> Velaine");
-
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {

@@ -114,42 +114,6 @@ public class AsyncArret extends AsyncTask<Object, Integer, String[]> {
         parseStops(datas[1]);
 
 
-        //A MODIFIER
-
-//        arrets = new ArrayList<>();
-//        try {
-//            JSONObject reader2 = new JSONObject(Html);
-//            System.out.println("reader2Dom = " + reader2);
-//            JSONArray jsonArray = reader2.optJSONArray("stopgroups");
-//
-//            ArrayList<HashMap<String,String>> listItem = new ArrayList<HashMap<String, String>>();
-//            HashMap<String, String> map;
-//            URL = new String[jsonArray.length()];
-//
-//            for(int i = 0; i <jsonArray.length();i++){
-//
-//                JSONObject jsObSG = jsonArray.getJSONObject(i);
-//                if(jsObSG.get("way").equals("O")){
-//                    JSONObject jsObLine = jsObSG.getJSONObject("line");
-//                    JSONObject jsObStop = jsObSG.getJSONObject("stop");
-//                    Arret arret = new Arret(jsObStop.getString("name"),jsObLine.getString("label"), new LatLng(jsObStop.getDouble("latitude"),jsObStop.getDouble("longitude")));
-//                    arrets.add(arret);
-//                }
-//
-//                //URL[i] = jsonObject.optString("name").toString();
-//
-//                //map = new HashMap<String,String>();
-//                //map.put("name",URL[i]);
-//                //listItem.add(map);
-//            }
-//
-////            SimpleAdapter mSchedule = new SimpleAdapter(cont ,listItem, R.layout.activity_test,
-////                    new String[]{"name"}, new int[]{R.id.textView5});
-////            listView.setAdapter(mSchedule);
-//
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
     }
 
     private void parseStopGroups(String data){
