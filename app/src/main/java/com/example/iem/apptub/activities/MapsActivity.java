@@ -90,6 +90,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
+
         PointsData pointsData = new PointsData();
         pointsData.setLatitude(15);
         pointsData.setLongitude(30);
