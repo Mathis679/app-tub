@@ -24,6 +24,20 @@ public class PointsData extends BaseModel {
     @Column
     float longitude;
 
+    @Column
+    String nom;
+
+    @Column
+    String adresse;
+
+    @Column
+    String ligne;
+
+    @Column
+    int idLine;
+
+
+
     public void setLongitude(float longitude) {
         this.longitude = longitude;
     }
@@ -32,4 +46,23 @@ public class PointsData extends BaseModel {
 
         this.latitude = latitude;
     }
+
+    public void setNom(String nom){
+        this.nom = nom;
+    }
+
+    public void setAdresse(String adresse){
+        this.adresse = adresse;
+    }
+
+    public void setLigne(String ligne){
+        this.ligne = ligne;
+    }
+
+    public void setIdLine(int idLine)
+    {
+        this.idLine = idLine;
+    }
+
+
 }

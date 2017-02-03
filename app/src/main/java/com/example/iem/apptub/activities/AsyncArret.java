@@ -67,7 +67,6 @@ public class AsyncArret extends AsyncTask<Object, Integer, String[]> {
                 datas[0] = Html;
             }
 
-
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {

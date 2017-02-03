@@ -37,7 +37,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.iem.apptub.MyRunnable;
 import com.example.iem.apptub.R;
+import com.example.iem.apptub.TubAPI;
 import com.example.iem.apptub.classes.Arret;
 
 import com.example.iem.apptub.database.PointsData;
@@ -62,9 +64,10 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit.RestAdapter;
 
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback{
 
     private GoogleMap mMap;
     public int test1;
@@ -91,10 +94,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
 
 
+        Thread thread = new Thread(new MyRunnable());
+        thread.start();
+
         PointsData pointsData = new PointsData();
         pointsData.setLatitude(15);
         pointsData.setLongitude(30);
+        pointsData.setNom("testNomligne");
+        pointsData.setAdresse("testadresse");
+        pointsData.setLigne("testligne");
+        pointsData.setIdLine(2);
         pointsData.save();
+
+
 
         List<PointsData> point = SQLite.select().from(PointsData.class).queryList();
         System.out.println("point = " + point);
@@ -663,13 +675,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
     }
-
-
-
-
-
-
-
-
 
 }
