@@ -20,6 +20,8 @@ public class PointsData extends BaseModel {
 
     @Column
     float latitude;
+
+    @Column
     float longitude;
 
     public void setLongitude(float longitude) {
@@ -27,6 +29,7 @@ public class PointsData extends BaseModel {
     }
 
     public void setLatitude(float latitude) {
+
         this.latitude = latitude;
     }
 }
