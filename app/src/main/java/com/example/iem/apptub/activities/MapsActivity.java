@@ -563,7 +563,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void addMarkersForLine(int numLine){
         for(int i=0;i<AsyncArret.arrets.size();i++) {
             if(numLine == 1) {
-                if (AsyncArret.arrets.get(i).getLigne().equals("Ligne 1 : Norelan <> Velaine")) {
+                if (AsyncArret.arrets.get(i).getIdLine() == 1) {
                     LatLng mark = AsyncArret.arrets.get(i).getCoord();
                     mMap.addMarker(new MarkerOptions().position(mark)
                             .title(AsyncArret.arrets.get(i).getNom())
@@ -572,7 +572,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 }
             }else if(numLine == 2){
-                if (AsyncArret.arrets.get(i).getLigne().equals("Ligne 2 : Norelan <> Ainterexpo")) {
+                if (AsyncArret.arrets.get(i).getIdLine() == 2) {
                     LatLng mark = AsyncArret.arrets.get(i).getCoord();
                     mMap.addMarker(new MarkerOptions().position(mark)
                             .title(AsyncArret.arrets.get(i).getNom())
@@ -581,7 +581,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 }
             }else if(numLine == 3){
-                if (AsyncArret.arrets.get(i).getLigne().equals("Ligne 3 : Péronnas Blés d'Or <> Alagnier")) {
+                if (AsyncArret.arrets.get(i).getIdLine() == 3) {
                     LatLng mark = AsyncArret.arrets.get(i).getCoord();
                     mMap.addMarker(new MarkerOptions().position(mark)
                             .title(AsyncArret.arrets.get(i).getNom())
@@ -590,7 +590,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 }
             }else if(numLine == 4){
-                if (AsyncArret.arrets.get(i).getLigne().equals("Ligne 4 : St Denis Collège <> Clinique Convert/EREA La Chagne")) {
+                if (AsyncArret.arrets.get(i).getIdLine() == 4) {
                     LatLng mark = AsyncArret.arrets.get(i).getCoord();
                     mMap.addMarker(new MarkerOptions().position(mark)
                             .title(AsyncArret.arrets.get(i).getNom())
@@ -599,7 +599,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 }
             }else if(numLine == 5){
-                if (AsyncArret.arrets.get(i).getLigne().equals("Ligne 5 : St Denis Collège <> St Denis Collège")) {
+                if (AsyncArret.arrets.get(i).getIdLine() == 5) {
                     LatLng mark = AsyncArret.arrets.get(i).getCoord();
                     mMap.addMarker(new MarkerOptions().position(mark)
                             .title(AsyncArret.arrets.get(i).getNom())
@@ -608,7 +608,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 }
             }else if(numLine == 6){
-                if (AsyncArret.arrets.get(i).getLigne().equals("Ligne 6 : Viriat Caronniers <> Ainterexpo")) {
+                if (AsyncArret.arrets.get(i).getIdLine() == 6) {
                     LatLng mark = AsyncArret.arrets.get(i).getCoord();
                     mMap.addMarker(new MarkerOptions().position(mark)
                             .title(AsyncArret.arrets.get(i).getNom())
@@ -617,7 +617,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 }
             }else if(numLine == 7){
-                if (AsyncArret.arrets.get(i).getLigne().equals("Ligne 7 : Viriat Caronniers <> Carré Amiot")) {
+                if (AsyncArret.arrets.get(i).getIdLine() == 7) {
                     LatLng mark = AsyncArret.arrets.get(i).getCoord();
                     mMap.addMarker(new MarkerOptions().position(mark)
                             .title(AsyncArret.arrets.get(i).getNom())
@@ -626,7 +626,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 }
             }else if(numLine == 21){
-                if (AsyncArret.arrets.get(i).getLigne().equals("Ligne 21 : Peloux Gare <> Sources")) {
+                if (AsyncArret.arrets.get(i).getIdLine() == 8) {
                     LatLng mark = AsyncArret.arrets.get(i).getCoord();
                     mMap.addMarker(new MarkerOptions().position(mark)
                             .title(AsyncArret.arrets.get(i).getNom())
