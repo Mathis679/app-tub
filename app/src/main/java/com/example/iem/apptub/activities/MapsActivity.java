@@ -39,7 +39,8 @@ import android.widget.Toast;
 
 import com.example.iem.apptub.R;
 import com.example.iem.apptub.classes.Arret;
-import com.example.iem.apptub.database.Table.ArretManager;
+
+import com.example.iem.apptub.database.PointsData;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -53,6 +54,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.kml.KmlLayer;
 import com.opencsv.CSVParser;
 import com.opencsv.CSVReader;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -88,8 +90,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
+        PointsData pointsData = new PointsData();
+        pointsData.setLatitude(15);
+        pointsData.setLongitude(30);
+        pointsData.save();
 
-
+        List<PointsData> point = SQLite.select().from(PointsData.class).queryList();
+        System.out.println("point = " + point);
 
 
 
@@ -110,31 +117,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        ArretManager m = new ArretManager(this);
-        m.open();
-        m.addArret(new Arret(0,"arret 1"));
-
-        //Arret a=m.getArret(1);
-        //a.setNom("toto");
-        //m.modArret(a);
-        //m.supAnimal(a);
-
-        Cursor c = m.getArret();
-        if (c.moveToFirst())
-        {
-            do {
-                Log.d("test",
-                        c.getInt(c.getColumnIndex(ArretManager.KEY_ID_ARRET)) + "," +
-                                c.getString(c.getColumnIndex(ArretManager.KEY_NOM_ARRET))
-                );
-            }
-            while (c.moveToNext());
-        }
-        c.close(); // fermeture du curseur
-
-// fermeture du gestionnaire
-        m.close();
-
+     
 
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -531,7 +514,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .setCancelable(false)
                 .setPositiveButton("Oui",new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int id) {
-                        new AsyncArret().execute(MapsActivity.this,"https://dev.tub.bourgmapper.fr/api/stopgroups","https://dev.tub.bourgmapper.fr/api/stops");
+                        new AsyncArret().execute(MapsActivity.this,"https://tub.bourgmapper.fr/api/stopgroups","https://tub.bourgmapper.fr/api/stops");
                         Toast.makeText(MapsActivity.this, "Les données ont été rechargées.", Toast.LENGTH_SHORT).show();
                         dialog.cancel();
                         MapsActivity.this.onMapReady(mMap);
