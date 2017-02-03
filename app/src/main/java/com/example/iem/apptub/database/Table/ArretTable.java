@@ -1,7 +1,9 @@
 package com.example.iem.apptub.database.Table;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
 import com.example.iem.apptub.classes.Arret;
 import com.example.iem.apptub.classes.Folder;
@@ -26,6 +28,10 @@ public class ArretTable extends AbstractTable<Arret> {
      * Represents the name of a {@link Arret}
      */
     public static final String KEY_NAME = "name";
+
+
+    private SQLiteDatabase db;
+
 
 
 
@@ -87,4 +93,10 @@ public class ArretTable extends AbstractTable<Arret> {
 //        child.setFolderId(cursor.getString(cursor.getColumnIndex(ArretTable.KEY_FOLDER)));
 //        return child;
 //    }
+
+
+    public ArretTable(Context context)
+    {
+
+    }
 }

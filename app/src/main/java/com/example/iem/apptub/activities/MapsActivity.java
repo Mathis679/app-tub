@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
@@ -37,12 +38,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.iem.apptub.R;
+import com.example.iem.apptub.classes.Arret;
+import com.example.iem.apptub.database.Table.ArretManager;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -72,12 +76,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private static int requestInt;
 
+    //int permissionCheck = ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_CALENDAR);
+
+    private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1;
+
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+
+
+
 
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -96,6 +109,33 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
+
+        ArretManager m = new ArretManager(this);
+        m.open();
+        m.addArret(new Arret(0,"arret 1"));
+
+        //Arret a=m.getArret(1);
+        //a.setNom("toto");
+        //m.modArret(a);
+        //m.supAnimal(a);
+
+        Cursor c = m.getArret();
+        if (c.moveToFirst())
+        {
+            do {
+                Log.d("test",
+                        c.getInt(c.getColumnIndex(ArretManager.KEY_ID_ARRET)) + "," +
+                                c.getString(c.getColumnIndex(ArretManager.KEY_NOM_ARRET))
+                );
+            }
+            while (c.moveToNext());
+        }
+        c.close(); // fermeture du curseur
+
+// fermeture du gestionnaire
+        m.close();
+
+
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -125,6 +165,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
                 drawer.closeDrawer(GravityCompat.START);
+
+
+
                 return true;
             }
         });
@@ -139,17 +182,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
 
-//        for(int i=0;i<csvLines.size();i++){
-//            testDom = new String[csvLines.get(i).length];
-//            testDom[i] = csvLines.get(i);
-//            System.out.println("testDom = " + testDom[i]);
-//        }
-
-
-//        horArret = new String[csvLines.get(1).length];
-//        for(int i=0;i<csvLines.get(1).length;i++){
-//            horArret[i] = csvLines.get(1)[i];
-//        }
 
         mapView = mapFragment.getView();
 
@@ -235,8 +267,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        if(checkPermission())
+        if(checkPermission()) {
+
             mMap.setMyLocationEnabled(true);
+        }
         else askPermission();
 
 
@@ -621,6 +655,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         );
     }
 
+
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         Log.d("lol", "onRequestPermissionsResult()");
@@ -630,6 +666,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission granted
                 if (checkPermission())
+
                     mMap.setMyLocationEnabled(true);
 
             } else {
@@ -637,9 +674,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Toast.makeText(this,"permission denied",Toast.LENGTH_LONG);
 
             }
+
+
         }
 
     }
+
+
+
+
 
 
 

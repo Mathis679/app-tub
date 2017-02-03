@@ -18,6 +18,11 @@ public class Arret {
     private int id;
     private int idLine;
 
+    public Arret(int id, String nom) {
+        this.id = id;
+        this.nom = nom;
+    }
+
     public Arret(int id, int idLine ){
         this.id = id;
         this.idLine = idLine;
@@ -56,6 +61,8 @@ public class Arret {
         this.ligne = ligne;
         this.coord = coord;
     }
+
+
 
     public String getLigne() {
         return ligne;
@@ -105,6 +112,8 @@ public class Arret {
     }
 
     public int getId(){ return this.id; }
+
+    public void setId(int id){ this.id = id; }
 
     public int getIdLine(){ return this.idLine; }
 }
