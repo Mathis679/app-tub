@@ -18,6 +18,34 @@ public class Arret {
     private int id;
     private int idLine;
 
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getNomLigne() {
+        return nomLigne;
+    }
+
+    public void setNomLigne(String nomLigne) {
+        this.nomLigne = nomLigne;
+    }
+
+    private double longitude;
+    private double latitude;
+    private String nomLigne;
+
     public Arret(int id, String nom) {
         this.id = id;
         this.nom = nom;
