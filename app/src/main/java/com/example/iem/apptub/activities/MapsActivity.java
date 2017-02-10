@@ -669,7 +669,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             } else {
                 // Permission denied
-                Toast.makeText(this,"permission denied",Toast.LENGTH_LONG).show();
+                Toast.makeText(this,"Permission de localisation refusée",Toast.LENGTH_LONG).show();
 
             }
 
