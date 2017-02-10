@@ -94,7 +94,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
 
 
-        Thread thread = new Thread(new MyRunnable());
+        Thread thread = new Thread(new MyRunnable(this));
         thread.start();
 
         PointsData pointsData = new PointsData();
@@ -662,12 +662,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission granted
                 if (checkPermission())
-
+                    Log.d("permission", "location");
                     mMap.setMyLocationEnabled(true);
 
             } else {
                 // Permission denied
-                Toast.makeText(this,"permission denied",Toast.LENGTH_LONG);
+                Toast.makeText(this,"permission denied",Toast.LENGTH_LONG).show();
 
             }
 

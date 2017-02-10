@@ -1,9 +1,12 @@
 package com.example.iem.apptub.activities;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import com.example.iem.apptub.R;
 import com.example.iem.apptub.classes.Arret;
@@ -35,6 +38,7 @@ public class AsyncArret extends AsyncTask<Object, Integer, String[]> {
     ListView listView;
     static ArrayList<Arret> arrets;
     private static String[]URL;
+    boolean isConnected = true;
 
 
     @Override
@@ -47,57 +51,67 @@ public class AsyncArret extends AsyncTask<Object, Integer, String[]> {
 
         //infoServeurs = (ArrayList<InfoServeur>)urls[3];
 
+        ConnectivityManager conMgr = (ConnectivityManager)cont.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        try {
-
-
-            tmpUrl= new URL((String)urls[1]); // revoir
-            HttpURLConnection urlConnection = (HttpURLConnection) tmpUrl.openConnection();
-            if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+        if ( conMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED
+                || conMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED ) {
 
 
-                while ((data = in.readLine()) != null) {
+            try {
 
-                    Html += data;
 
+                tmpUrl= new URL((String)urls[1]); // revoir
+                HttpURLConnection urlConnection = (HttpURLConnection) tmpUrl.openConnection();
+                if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                    in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+
+
+                    while ((data = in.readLine()) != null) {
+
+                        Html += data;
+
+                    }
+
+                    in.close();
+                    datas[0] = Html;
                 }
 
-                in.close();
-                datas[0] = Html;
-            }
-
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        try {
-
-            Html = "";
-            tmpUrl= new URL((String)urls[2]); // revoir
-            HttpURLConnection urlConnection = (HttpURLConnection) tmpUrl.openConnection();
-            if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-
-
-                while ((data = in.readLine()) != null) {
-
-                    Html += data;
-
-                }
-
-                in.close();
-                datas[1] = Html;
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
 
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            try {
+
+                Html = "";
+                tmpUrl= new URL((String)urls[2]); // revoir
+                HttpURLConnection urlConnection = (HttpURLConnection) tmpUrl.openConnection();
+                if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                    in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+
+
+                    while ((data = in.readLine()) != null) {
+
+                        Html += data;
+
+                    }
+
+                    in.close();
+                    datas[1] = Html;
+                }
+
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }else{
+            isConnected = false;
+            //Toast.makeText(cont,"Vous semblez etre déconnecté", Toast.LENGTH_SHORT).show();
         }
         return datas;
     }
@@ -108,9 +122,16 @@ public class AsyncArret extends AsyncTask<Object, Integer, String[]> {
 
     protected void onPostExecute(String[] datas) {
 
+        if(!isConnected)
+            Toast.makeText(cont,"Vous semblez etre déconnecté", Toast.LENGTH_SHORT).show();
+        if(datas[0] == null || datas[1] == null){
+            Toast.makeText(cont, "Les données n'ont pas été chargées correctement, veuillez réessayer plus tard",Toast.LENGTH_SHORT).show();
+        }else{
+            parseStopGroups(datas[0]);
+            parseStops(datas[1]);
+        }
 
-        parseStopGroups(datas[0]);
-        parseStops(datas[1]);
+
 
 
     }

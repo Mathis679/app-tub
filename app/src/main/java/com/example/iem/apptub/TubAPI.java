@@ -17,7 +17,7 @@ import retrofit.http.Query;
 public interface TubAPI {
 
 
-    public static final String ENDPOINT = "http://88f8509c.ngrok.io/index.php";
+    public static final String ENDPOINT = "http://e18cc850.ngrok.io/index.php";
 
     @GET("/stops/all")
     List<Arret> listArret();
