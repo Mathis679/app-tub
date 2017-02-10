@@ -187,7 +187,8 @@ public class AsyncArret extends AsyncTask<Object, Integer, String[]> {
                     if(jsObS.getInt("id") == arrets.get(j).getId()){
 
                         arrets.get(j).setNom(jsObS.getString("label"));
-                        arrets.get(j).setCoord(new LatLng(jsObS.getDouble("latitude"),jsObS.getDouble("longitude")));
+                        arrets.get(j).setLatitude(jsObS.getDouble("latitude"));
+                        arrets.get(j).setLongitude(jsObS.getDouble("longitude"));
 
                     }
 
@@ -210,8 +211,8 @@ public class AsyncArret extends AsyncTask<Object, Integer, String[]> {
         for(int i=0; i<arrets.size();i++){
             PointsData pointsData = new PointsData();
             pointsData.setId(i);
-            pointsData.setLatitude(arrets.get(i).getCoord().latitude);
-            pointsData.setLongitude(arrets.get(i).getCoord().longitude);
+            pointsData.setLatitude(arrets.get(i).getLatitude());
+            pointsData.setLongitude(arrets.get(i).getLongitude());
             pointsData.setNom(arrets.get(i).getNom());
             pointsData.setLigne(arrets.get(i).getNomLigne());
             pointsData.setAdresse("testadresse");

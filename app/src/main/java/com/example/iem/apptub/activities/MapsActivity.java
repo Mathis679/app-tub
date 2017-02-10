@@ -42,6 +42,7 @@ import com.example.iem.apptub.R;
 import com.example.iem.apptub.TubAPI;
 import com.example.iem.apptub.classes.Arret;
 
+import com.example.iem.apptub.classes.Horaire;
 import com.example.iem.apptub.database.PointsData;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -81,9 +82,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     List<Arret> list;
 
+
     private static int requestInt;
 
-    //int permissionCheck = ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_CALENDAR);
 
     private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1;
 
@@ -99,21 +100,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Thread thread = new Thread(new MyRunnable(this));
         thread.start();
 
-//        PointsData pointsData = new PointsData();
-//        pointsData.setLatitude(15);
-//        pointsData.setLongitude(30);
-//        pointsData.setNom("testNomligne");
-//        pointsData.setAdresse("testadresse");
-//        pointsData.setLigne("testligne");
-//        pointsData.setIdLine(2);
-//        pointsData.save();
-
-
-
-//        List<PointsData> point = SQLite.select().from(PointsData.class).queryList();
-//        System.out.println("point = " + point);
+        currCtx = this;
 
         fillListFromBDD();
+
+        fillAllListHor();
+
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -170,29 +162,42 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        currCtx = this;
 
-
-        try {
-            csvLines = readCsv();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
 
 
         mapView = mapFragment.getView();
 
+
     }
 
-    public String[] RechercheArret(String nomLigne,List<String[]> csvLines){
-        String[] horForLine = new String[200];
+    public List<String[]> readCsv(int r) throws IOException {
+        CSVReader reader = null;
+
+
+        reader = new CSVReader(new InputStreamReader(
+                currCtx.getResources().openRawResource(r),
+                Charset.forName("windows-1254")),';',
+                CSVParser.DEFAULT_QUOTE_CHARACTER, 0);
+
+
+        List<String[]> listRead = reader.readAll();
+
+        return listRead;
+    }
+
+    public String[] RechercheArret(String nomArret,List<String[]> csvLines){
+        String[] horForLine = new String[0];
 
         for(int i = 0 ; i < csvLines.size() ; i++){
-            if(csvLines.get(i)[0].replace("Ã©","é").replace("Ã¨","è").replace("Ã´","ô").equalsIgnoreCase(nomLigne)){
+            if(csvLines.get(i)[0].replace("Ã©","é").replace("Ã¨","è").replace("Ã´","ô").equalsIgnoreCase(nomArret)){
+                horForLine = new String[csvLines.get(i).length];
+                for(int j = 1, y=0; j < csvLines.get(i).length; j++){
+                    if(csvLines.get(i)[j]!=""){
+                        horForLine[y] = csvLines.get(i)[j];
+                        y++;
+                    }
 
-                for(int j = 1; j < csvLines.get(i).length; j++){
-                    horForLine[j-1] = csvLines.get(i)[j];
                 }
 
             }
@@ -200,6 +205,82 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return horForLine;
     }
 
+
+    public void fillAllListHor(){
+        List<String[]> listW1 = new ArrayList<>();
+        List<String[]> listW2 = new ArrayList<>();
+        String[] listh1;
+        String[] listh2;
+        String way1 = "test";
+        String way2 = "test";
+        for(int i=0; i<list.size(); i++){
+            List<Horaire> Llist = new ArrayList<>();
+            switch(list.get(i).getIdLine()){
+                case 1:
+                    try {
+                        listW1=readCsv(R.raw.l1_mol_oy);
+                        listW2=readCsv(R.raw.l1_oy_mol);
+                        way1 = "Molière -> Oyards";
+                        way2 = "Oyards -> Molière";
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case 2:
+                    try {
+                        listW1=readCsv(R.raw.l2_ain_nor);
+                        listW2=readCsv(R.raw.l2_nor_ain);
+                        way1 = "Ainterexpo -> Norelan";
+                        way2 = "Norelan -> Ainterexpo";
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case 3:
+                    try {
+                        listW1=readCsv(R.raw.l3_ala_per);
+                        listW2=readCsv(R.raw.l3_per_ala);
+                        way1 = "Alagnier -> Peronnas";
+                        way2 = "Peronnas -> Alagnier";
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                default:
+                    try {
+                        listW1=readCsv(R.raw.l1_mol_oy);
+                        listW2=readCsv(R.raw.l1_oy_mol);
+                        way1 = "Molière -> Oyards";
+                        way2 = "Oyards -> Molière";
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+            }
+
+            listh1 = RechercheArret(list.get(i).getNom(),listW1);
+            listh2 = RechercheArret(list.get(i).getNom(),listW2);
+
+            for(int j=0;j<listh1.length;j++){
+                Horaire h = new Horaire(way1,listh1[j],1,list.get(i).getNom());
+                Llist.add(h);
+            }
+            for(int j=0;j<listh2.length;j++){
+                Horaire h = new Horaire(way2,listh2[j],1,list.get(i).getNom());
+                Llist.add(h);
+            }
+            list.get(i).setHoraires(Llist);
+        }
+    }
+
+    public Arret getArretById(int id){
+        for(int i=0;i<list.size();i++){
+            if(list.get(i).getId() == id){
+                return list.get(i);
+            }
+        }
+        return null;
+    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -257,10 +338,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
+
+                Arret a = getArretById(Integer.parseInt(marker.getSnippet()));
+
                 Intent i = new Intent(currCtx,HorairesActivity.class);
-                i.putExtra("list",RechercheArret(marker.getTitle(),csvLines));
+
                 i.putExtra("nom",marker.getTitle());
-                i.putExtra("sens",marker.getSnippet());
+                i.putExtra("arret",a);
                 startActivity(i);
             }
         });
@@ -505,15 +589,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
-    public List<String[]> readCsv() throws IOException {
-        CSVReader reader = new CSVReader(new InputStreamReader(
-                currCtx.getResources().openRawResource(R.raw.l1_oy_mol),
-                Charset.forName("windows-1254")),';',
-                CSVParser.DEFAULT_QUOTE_CHARACTER, 0);
 
-        List<String[]> listRead = reader.readAll();
-        return listRead;
-    }
 
     public void onClickRefresh(View view){
 
@@ -560,79 +636,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void addMarkersForLine(int numLine){
         for(int i=0;i<list.size();i++) {
-            if(numLine == 1) {
-                if (list.get(i).getIdLine() == 1) {
-                    LatLng mark = list.get(i).getCoord();
+
+                if (list.get(i).getIdLine() == numLine) {
+                    LatLng mark = new LatLng(list.get(i).getLatitude(),list.get(i).getLongitude());
                     mMap.addMarker(new MarkerOptions().position(mark)
                             .title(list.get(i).getNom())
                             .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("logobus", 100, 100))))
-                            .setSnippet("Ligne 1 : Norelan <> Velaine");
+                            .setSnippet(Integer.toString(list.get(i).getId()));
 
                 }
-            }else if(numLine == 2){
-                if (list.get(i).getIdLine() == 2) {
-                    LatLng mark = list.get(i).getCoord();
-                    mMap.addMarker(new MarkerOptions().position(mark)
-                            .title(list.get(i).getNom())
-                            .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("logobus", 100, 100))))
-                            .setSnippet("Ligne 2 : Norelan <> Ainterexpo");
 
-                }
-            }else if(numLine == 3){
-                if (list.get(i).getIdLine() == 3) {
-                    LatLng mark = list.get(i).getCoord();
-                    mMap.addMarker(new MarkerOptions().position(mark)
-                            .title(list.get(i).getNom())
-                            .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("logobus", 100, 100))))
-                            .setSnippet("Ligne 3 : Péronnas Blés d'Or <> Alagnier");
-
-                }
-            }else if(numLine == 4){
-                if (list.get(i).getIdLine() == 4) {
-                    LatLng mark = list.get(i).getCoord();
-                    mMap.addMarker(new MarkerOptions().position(mark)
-                            .title(list.get(i).getNom())
-                            .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("logobus", 100, 100))))
-                            .setSnippet("Ligne 4 : St Denis Collège <> Clinique Convert/EREA La Chagne");
-
-                }
-            }else if(numLine == 5){
-                if (list.get(i).getIdLine() == 5) {
-                    LatLng mark = list.get(i).getCoord();
-                    mMap.addMarker(new MarkerOptions().position(mark)
-                            .title(list.get(i).getNom())
-                            .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("logobus", 100, 100))))
-                            .setSnippet("Ligne 5 : St Denis Collège <> St Denis Collège");
-
-                }
-            }else if(numLine == 6){
-                if (list.get(i).getIdLine() == 6) {
-                    LatLng mark = list.get(i).getCoord();
-                    mMap.addMarker(new MarkerOptions().position(mark)
-                            .title(list.get(i).getNom())
-                            .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("logobus", 100, 100))))
-                            .setSnippet("Ligne 6 : Viriat Caronniers <> Ainterexpo");
-
-                }
-            }else if(numLine == 7){
-                if (list.get(i).getIdLine() == 7) {
-                    LatLng mark = list.get(i).getCoord();
-                    mMap.addMarker(new MarkerOptions().position(mark)
-                            .title(list.get(i).getNom())
-                            .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("logobus", 100, 100))))
-                            .setSnippet("Ligne 7 : Viriat Caronniers <> Carré Amiot");
-
-                }
-            }else if(numLine == 21){
-                if (list.get(i).getIdLine() == 8) {
-                    LatLng mark = list.get(i).getCoord();
-                    mMap.addMarker(new MarkerOptions().position(mark)
-                            .title(list.get(i).getNom())
-                            .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("logobus", 100, 100))))
-                            .setSnippet("Ligne 21 : Peloux Gare <> Sources");
-
-                }
-            }
 
         }
     }
@@ -684,8 +697,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         for(int i = 0; i<point.size();i++){
             Arret arret = new Arret(point.get(i).getId(),point.get(i).getIdLine());
             arret.setNom(point.get(i).getNom());
-            LatLng latLng = new LatLng(point.get(i).getLatitude(), point.get(i).getLongitude());
-            arret.setCoord(latLng);
+            arret.setLatitude(point.get(i).getLatitude());
+            arret.setLongitude(point.get(i).getLongitude());
             list.add(arret);
         }
     }

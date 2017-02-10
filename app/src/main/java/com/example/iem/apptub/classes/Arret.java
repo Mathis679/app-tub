@@ -1,7 +1,10 @@
 package com.example.iem.apptub.classes;
 
+import android.os.Parcelable;
+
 import com.google.android.gms.maps.model.LatLng;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,28 +12,40 @@ import java.util.List;
  * Created by iem on 21/10/2016.
  */
 
-public class Arret {
+public class Arret implements Serializable{
     private String nom;
     private String adresse;
-    private List<String> horaires;
-    private LatLng coord;
+    private List<Horaire> horaires;
     private String ligne;
     private int id;
     private int idLine;
+    private double longitude;
+    private double latitude;
+    private String nomLigne;
 
-    public float getLongitude() {
+    public void setHoraires(List<Horaire> horaires) {
+        this.horaires = horaires;
+    }
+
+    public List<Horaire> getHoraires() {
+        return horaires;
+    }
+
+
+
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(float longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
-    public float getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(float latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
@@ -42,14 +57,6 @@ public class Arret {
         this.nomLigne = nomLigne;
     }
 
-    private float longitude;
-    private float latitude;
-    private String nomLigne;
-
-    public Arret(int id, String nom) {
-        this.id = id;
-        this.nom = nom;
-    }
 
     public Arret(int id, int idLine ){
         this.id = id;
@@ -84,11 +91,6 @@ public class Arret {
         }
     }
 
-    public Arret(String nom, String ligne, LatLng coord ){
-        this.nom = nom;
-        this.ligne = ligne;
-        this.coord = coord;
-    }
 
 
 
@@ -111,14 +113,6 @@ public class Arret {
         this.nom = nom;
     }
 
-    public LatLng getCoord(){
-        return this.coord;
-    }
-
-
-    public void setCoord(LatLng coord){
-        this.coord = coord;
-    }
 
     public String getAdresse(){
         return this.adresse;
@@ -129,15 +123,6 @@ public class Arret {
         this.adresse = adresse;
     }
 
-    public List<String> getHoraires(){
-        return this.horaires;
-    }
-
-    public void setHoraires(List<String> horaires){
-        if(this.horaires!=null)
-            this.horaires.clear();
-        this.horaires.addAll(horaires);
-    }
 
     public int getId(){ return this.id; }
 
