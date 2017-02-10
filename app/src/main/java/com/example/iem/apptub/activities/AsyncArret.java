@@ -10,7 +10,9 @@ import android.widget.Toast;
 
 import com.example.iem.apptub.R;
 import com.example.iem.apptub.classes.Arret;
+import com.example.iem.apptub.database.PointsData;
 import com.google.android.gms.maps.model.LatLng;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,6 +26,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by iem on 04/11/2016.
@@ -36,7 +39,7 @@ public class AsyncArret extends AsyncTask<Object, Integer, String[]> {
     String data = "";
     Context cont;
     ListView listView;
-    static ArrayList<Arret> arrets;
+    ArrayList<Arret> arrets;
     private static String[]URL;
     boolean isConnected = true;
 
@@ -129,6 +132,7 @@ public class AsyncArret extends AsyncTask<Object, Integer, String[]> {
         }else{
             parseStopGroups(datas[0]);
             parseStops(datas[1]);
+            fillBDD();
         }
 
 
@@ -193,6 +197,26 @@ public class AsyncArret extends AsyncTask<Object, Integer, String[]> {
 
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void fillBDD(){
+        List<PointsData> point = SQLite.select().from(PointsData.class).queryList();
+        if(point!=null){
+            for(int i=0; i<point.size();i++){
+                point.get(i).delete();
+            }
+        }
+        for(int i=0; i<arrets.size();i++){
+            PointsData pointsData = new PointsData();
+            pointsData.setId(i);
+            pointsData.setLatitude(arrets.get(i).getCoord().latitude);
+            pointsData.setLongitude(arrets.get(i).getCoord().longitude);
+            pointsData.setNom(arrets.get(i).getNom());
+            pointsData.setLigne(arrets.get(i).getNomLigne());
+            pointsData.setAdresse("testadresse");
+            pointsData.setIdLine(arrets.get(i).getIdLine());
+            pointsData.save();
         }
     }
 

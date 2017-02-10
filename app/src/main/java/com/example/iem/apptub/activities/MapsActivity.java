@@ -79,6 +79,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     List<String[]> csvLines = null;
     View mapView;
 
+    List<Arret> list;
+
     private static int requestInt;
 
     //int permissionCheck = ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_CALENDAR);
@@ -97,21 +99,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Thread thread = new Thread(new MyRunnable(this));
         thread.start();
 
-        PointsData pointsData = new PointsData();
-        pointsData.setLatitude(15);
-        pointsData.setLongitude(30);
-        pointsData.setNom("testNomligne");
-        pointsData.setAdresse("testadresse");
-        pointsData.setLigne("testligne");
-        pointsData.setIdLine(2);
-        pointsData.save();
+//        PointsData pointsData = new PointsData();
+//        pointsData.setLatitude(15);
+//        pointsData.setLongitude(30);
+//        pointsData.setNom("testNomligne");
+//        pointsData.setAdresse("testadresse");
+//        pointsData.setLigne("testligne");
+//        pointsData.setIdLine(2);
+//        pointsData.save();
 
 
 
-        List<PointsData> point = SQLite.select().from(PointsData.class).queryList();
-        System.out.println("point = " + point);
+//        List<PointsData> point = SQLite.select().from(PointsData.class).queryList();
+//        System.out.println("point = " + point);
 
-
+        fillListFromBDD();
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -557,75 +559,75 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void addMarkersForLine(int numLine){
-        for(int i=0;i<AsyncArret.arrets.size();i++) {
+        for(int i=0;i<list.size();i++) {
             if(numLine == 1) {
-                if (AsyncArret.arrets.get(i).getIdLine() == 1) {
-                    LatLng mark = AsyncArret.arrets.get(i).getCoord();
+                if (list.get(i).getIdLine() == 1) {
+                    LatLng mark = list.get(i).getCoord();
                     mMap.addMarker(new MarkerOptions().position(mark)
-                            .title(AsyncArret.arrets.get(i).getNom())
+                            .title(list.get(i).getNom())
                             .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("logobus", 100, 100))))
                             .setSnippet("Ligne 1 : Norelan <> Velaine");
 
                 }
             }else if(numLine == 2){
-                if (AsyncArret.arrets.get(i).getIdLine() == 2) {
-                    LatLng mark = AsyncArret.arrets.get(i).getCoord();
+                if (list.get(i).getIdLine() == 2) {
+                    LatLng mark = list.get(i).getCoord();
                     mMap.addMarker(new MarkerOptions().position(mark)
-                            .title(AsyncArret.arrets.get(i).getNom())
+                            .title(list.get(i).getNom())
                             .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("logobus", 100, 100))))
                             .setSnippet("Ligne 2 : Norelan <> Ainterexpo");
 
                 }
             }else if(numLine == 3){
-                if (AsyncArret.arrets.get(i).getIdLine() == 3) {
-                    LatLng mark = AsyncArret.arrets.get(i).getCoord();
+                if (list.get(i).getIdLine() == 3) {
+                    LatLng mark = list.get(i).getCoord();
                     mMap.addMarker(new MarkerOptions().position(mark)
-                            .title(AsyncArret.arrets.get(i).getNom())
+                            .title(list.get(i).getNom())
                             .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("logobus", 100, 100))))
                             .setSnippet("Ligne 3 : Péronnas Blés d'Or <> Alagnier");
 
                 }
             }else if(numLine == 4){
-                if (AsyncArret.arrets.get(i).getIdLine() == 4) {
-                    LatLng mark = AsyncArret.arrets.get(i).getCoord();
+                if (list.get(i).getIdLine() == 4) {
+                    LatLng mark = list.get(i).getCoord();
                     mMap.addMarker(new MarkerOptions().position(mark)
-                            .title(AsyncArret.arrets.get(i).getNom())
+                            .title(list.get(i).getNom())
                             .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("logobus", 100, 100))))
                             .setSnippet("Ligne 4 : St Denis Collège <> Clinique Convert/EREA La Chagne");
 
                 }
             }else if(numLine == 5){
-                if (AsyncArret.arrets.get(i).getIdLine() == 5) {
-                    LatLng mark = AsyncArret.arrets.get(i).getCoord();
+                if (list.get(i).getIdLine() == 5) {
+                    LatLng mark = list.get(i).getCoord();
                     mMap.addMarker(new MarkerOptions().position(mark)
-                            .title(AsyncArret.arrets.get(i).getNom())
+                            .title(list.get(i).getNom())
                             .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("logobus", 100, 100))))
                             .setSnippet("Ligne 5 : St Denis Collège <> St Denis Collège");
 
                 }
             }else if(numLine == 6){
-                if (AsyncArret.arrets.get(i).getIdLine() == 6) {
-                    LatLng mark = AsyncArret.arrets.get(i).getCoord();
+                if (list.get(i).getIdLine() == 6) {
+                    LatLng mark = list.get(i).getCoord();
                     mMap.addMarker(new MarkerOptions().position(mark)
-                            .title(AsyncArret.arrets.get(i).getNom())
+                            .title(list.get(i).getNom())
                             .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("logobus", 100, 100))))
                             .setSnippet("Ligne 6 : Viriat Caronniers <> Ainterexpo");
 
                 }
             }else if(numLine == 7){
-                if (AsyncArret.arrets.get(i).getIdLine() == 7) {
-                    LatLng mark = AsyncArret.arrets.get(i).getCoord();
+                if (list.get(i).getIdLine() == 7) {
+                    LatLng mark = list.get(i).getCoord();
                     mMap.addMarker(new MarkerOptions().position(mark)
-                            .title(AsyncArret.arrets.get(i).getNom())
+                            .title(list.get(i).getNom())
                             .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("logobus", 100, 100))))
                             .setSnippet("Ligne 7 : Viriat Caronniers <> Carré Amiot");
 
                 }
             }else if(numLine == 21){
-                if (AsyncArret.arrets.get(i).getIdLine() == 8) {
-                    LatLng mark = AsyncArret.arrets.get(i).getCoord();
+                if (list.get(i).getIdLine() == 8) {
+                    LatLng mark = list.get(i).getCoord();
                     mMap.addMarker(new MarkerOptions().position(mark)
-                            .title(AsyncArret.arrets.get(i).getNom())
+                            .title(list.get(i).getNom())
                             .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("logobus", 100, 100))))
                             .setSnippet("Ligne 21 : Peloux Gare <> Sources");
 
@@ -674,6 +676,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         }
 
+    }
+
+    public void fillListFromBDD(){
+        List<PointsData> point = SQLite.select().from(PointsData.class).queryList();
+        list = new ArrayList<>();
+        for(int i = 0; i<point.size();i++){
+            Arret arret = new Arret(point.get(i).getId(),point.get(i).getIdLine());
+            arret.setNom(point.get(i).getNom());
+            LatLng latLng = new LatLng(point.get(i).getLatitude(), point.get(i).getLongitude());
+            arret.setCoord(latLng);
+            list.add(arret);
+        }
     }
 
 }

@@ -19,10 +19,10 @@ public class PointsData extends BaseModel {
     int id;
 
     @Column
-    float latitude;
+    double latitude;
 
     @Column
-    float longitude;
+    double longitude;
 
     @Column
     String nom;
@@ -36,13 +36,15 @@ public class PointsData extends BaseModel {
     @Column
     int idLine;
 
+    public void setId(int id) {
+        this.id = id;
+    }
 
-
-    public void setLongitude(float longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
-    public void setLatitude(float latitude) {
+    public void setLatitude(double latitude) {
 
         this.latitude = latitude;
     }
@@ -64,5 +66,31 @@ public class PointsData extends BaseModel {
         this.idLine = idLine;
     }
 
+    public int getId() {
+        return id;
+    }
 
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public String getAdresse() {
+        return adresse;
+    }
+
+    public String getLigne() {
+        return ligne;
+    }
+
+    public int getIdLine() {
+        return idLine;
+    }
 }
