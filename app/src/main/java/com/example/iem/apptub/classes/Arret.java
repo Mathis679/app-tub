@@ -14,7 +14,6 @@ import java.util.List;
 
 public class Arret implements Serializable{
     private String nom;
-    private String adresse;
     private List<Horaire> horaires;
     private String ligne;
     private int id;
@@ -94,13 +93,7 @@ public class Arret implements Serializable{
 
 
 
-    public String getLigne() {
-        return ligne;
-    }
 
-    public void setLigne(String ligne) {
-        this.ligne = ligne;
-    }
 
 
 
@@ -111,16 +104,6 @@ public class Arret implements Serializable{
 
     public void setNom(String nom){
         this.nom = nom;
-    }
-
-
-    public String getAdresse(){
-        return this.adresse;
-    }
-
-
-    public void setAdresse(String adresse){
-        this.adresse = adresse;
     }
 
 

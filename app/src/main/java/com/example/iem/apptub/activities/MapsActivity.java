@@ -33,6 +33,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -69,25 +70,12 @@ import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback{
 
+    /*Variables*/
     private GoogleMap mMap;
-    public int test1;
-    private DrawerLayout menuLayout;
-    ActionBarDrawerToggle menuToogle;
-    Context currCtx;
-    private String[] horArret;
-    private String[] testDom;
-    List<String[]> csvLines = null;
-    View mapView;
-
-    List<Arret> list;
-
-
     private static int requestInt;
-
-
-    private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1;
-
-
+    Context currCtx;
+    View mapView;
+    List<Arret> list;
 
 
     @Override
@@ -123,13 +111,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-     
+
+        ImageButton showDrawer = (ImageButton) findViewById(R.id.show_drawer);
+        showDrawer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickMenu(v);
+            }
+        });
+
+        ImageButton refresh = (ImageButton) findViewById(R.id.refresh);
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickRefresh(v);
+            }
+        });
 
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                //Change la map suivant le choix de l'utilisateur
                 int id = item.getItemId();
 
                 if (id == R.id.ligne1) {
@@ -170,7 +174,181 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    public List<String[]> readCsv(int r) throws IOException {
+
+
+    /*Initialisation de la map*/
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+        addAllLayer();
+
+        LatLng latLng = new LatLng(46.205104,5.22534);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 13);
+        mMap.animateCamera(cameraUpdate);
+
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                marker.showInfoWindow();
+                return true;
+            }
+        });
+
+        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+            @Override
+            public View getInfoWindow(Marker marker) {
+                return null;
+            }
+
+            @Override
+            public View getInfoContents(Marker marker) {
+
+                View v = getLayoutInflater().inflate(R.layout.window_marker, null);
+
+                LatLng latLng = marker.getPosition();
+
+                TextView tvTitle = (TextView) v.findViewById(R.id.title_window);
+
+                TextView tvLat = (TextView) v.findViewById(R.id.tv_lat);
+
+                TextView tvLng = (TextView) v.findViewById(R.id.tv_lng);
+
+                final Marker copyMarker = marker;
+
+
+                tvLat.setText("Latitude:" + latLng.latitude);
+
+                tvLng.setText("Longitude:"+ latLng.longitude);
+
+                tvTitle.setText(copyMarker.getTitle());
+
+                return v;
+            }
+        });
+
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+
+                Arret a = getArretById(Integer.parseInt(marker.getSnippet()));
+
+                Intent i = new Intent(currCtx,HorairesActivity.class);
+
+                i.putExtra("nom",marker.getTitle());
+                i.putExtra("arret",a);
+                startActivity(i);
+            }
+        });
+
+        if(checkPermission()) {
+
+            mMap.setMyLocationEnabled(true);
+        }
+        else askPermission();
+
+
+        if (mapView != null &&
+                mapView.findViewById(Integer.parseInt("1")) != null) {
+            // Get the button view
+            View locationButton = ((View) mapView.findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
+            // and next place it, on bottom right (as Google Maps app)
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
+            // position on right bottom
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+            layoutParams.setMargins(0, 0, 30, 30);
+        }
+    }
+
+
+
+    /*Gestion des actions sur le NavigationDrawer*/
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
+    /*Gestion de la permission de localisation*/
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        Log.d("lol", "onRequestPermissionsResult()");
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == requestInt) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted
+                if (checkPermission())
+                    Log.d("permission", "location");
+                mMap.setMyLocationEnabled(true);
+
+            } else {
+                // Permission denied
+                Toast.makeText(this,"Permission de localisation refusée",Toast.LENGTH_LONG).show();
+
+            }
+
+
+        }
+
+    }
+
+    private boolean checkPermission() { //check si la permission de location est active
+        Log.d("lol", "checkPermission()");
+        // Ask for permission if it wasn't granted yet
+        return (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED );
+    }
+
+    private void askPermission() { //Demande la permission
+        Log.d("lol", "askPermission()");
+        ActivityCompat.requestPermissions(
+                this,
+                new String[] { Manifest.permission.ACCESS_FINE_LOCATION },
+                requestInt
+        );
+    }
+
+
+
+    /*Récupération/Traitements des données*/
+
+    public List<String[]> readCsv(int r) throws IOException { //lis un csv et retourne une liste de tableau de string -> pour chaque ligne, un tableau de string
         CSVReader reader = null;
 
 
@@ -185,7 +363,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return listRead;
     }
 
-    public String[] RechercheArret(String nomArret,List<String[]> csvLines){
+    public String[] RechercheArret(String nomArret,List<String[]> csvLines){ //Recherche un arret par son nom dans un csv et retourne les horaires associés
         String[] horForLine = new String[0];
 
         for(int i = 0 ; i < csvLines.size() ; i++){
@@ -204,8 +382,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return horForLine;
     }
 
-
-    public void fillAllListHor(){
+    public void fillAllListHor(){ //Remplis pour chaque arret de chaque ligne les horaires
         List<String[]> listW1 = new ArrayList<>();
         List<String[]> listW2 = new ArrayList<>();
         String[] listh1;
@@ -272,7 +449,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    public Arret getArretById(int id){
+    public Arret getArretById(int id){ //retourne un arret de la liste d'arret suivant son id
         for(int i=0;i<list.size();i++){
             if(list.get(i).getId() == id){
                 return list.get(i);
@@ -281,94 +458,45 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return null;
     }
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
+    public void addMarkersForLine(int numLine){ //ajoute les marqueurs pour une ligne donnée
+        for(int i=0;i<list.size();i++) {
 
-        addAllLayer();
+            if (list.get(i).getIdLine() == numLine) {
+                LatLng mark = new LatLng(list.get(i).getLatitude(),list.get(i).getLongitude());
+                mMap.addMarker(new MarkerOptions().position(mark)
+                        .title(list.get(i).getNom())
+                        .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("logobus", 100, 100))))
+                        .setSnippet(Integer.toString(list.get(i).getId()));
 
-        LatLng latLng = new LatLng(46.205104,5.22534);
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 13);
-        mMap.animateCamera(cameraUpdate);
-
-
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                marker.showInfoWindow();
-                return true;
-            }
-        });
-
-        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
-            @Override
-            public View getInfoWindow(Marker marker) {
-                return null;
             }
 
-            @Override
-            public View getInfoContents(Marker marker) {
 
-                View v = getLayoutInflater().inflate(R.layout.window_marker, null);
-
-                LatLng latLng = marker.getPosition();
-
-                TextView tvTitle = (TextView) v.findViewById(R.id.title_window);
-
-                TextView tvLat = (TextView) v.findViewById(R.id.tv_lat);
-
-                TextView tvLng = (TextView) v.findViewById(R.id.tv_lng);
-
-                TextView tvHor = (TextView) v.findViewById(R.id.tv_show_hor);
-
-                final Marker copyMarker = marker;
-
-
-                tvLat.setText("Latitude:" + latLng.latitude);
-
-                tvLng.setText("Longitude:"+ latLng.longitude);
-
-                tvTitle.setText(copyMarker.getTitle());
-
-                return v;
-            }
-        });
-
-        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            @Override
-            public void onInfoWindowClick(Marker marker) {
-
-                Arret a = getArretById(Integer.parseInt(marker.getSnippet()));
-
-                Intent i = new Intent(currCtx,HorairesActivity.class);
-
-                i.putExtra("nom",marker.getTitle());
-                i.putExtra("arret",a);
-                startActivity(i);
-            }
-        });
-
-        if(checkPermission()) {
-
-            mMap.setMyLocationEnabled(true);
-        }
-        else askPermission();
-
-
-        if (mapView != null &&
-                mapView.findViewById(Integer.parseInt("1")) != null) {
-            // Get the button view
-            View locationButton = ((View) mapView.findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
-            // and next place it, on bottom right (as Google Maps app)
-            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
-            // position on right bottom
-            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
-            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
-            layoutParams.setMargins(0, 0, 30, 30);
         }
     }
 
-    public void addAllLayer(){
+    public void fillListFromBDD(){ //Remplis la liste des arrets depuis la BDD locale
+        List<PointsData> point = SQLite.select().from(PointsData.class).queryList();
+        list = new ArrayList<>();
+        for(int i = 0; i<point.size();i++){
+            Arret arret = new Arret(point.get(i).getId(),point.get(i).getIdLine());
+            arret.setNom(point.get(i).getNom());
+            arret.setLatitude(point.get(i).getLatitude());
+            arret.setLongitude(point.get(i).getLongitude());
+            list.add(arret);
+        }
+    }
+
+    public Bitmap resizeMapIcons(String iconName, int width, int height){ //retaille l'icon de bus
+        Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(),getResources().getIdentifier(iconName, "mipmap", getPackageName()));
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
+        return resizedBitmap;
+    }
+
+
+
+    /*Gestion des kml*/
+
+    public void addAllLayer(){ //ajoute tout les kml (lignes) sur la map
         removeAllLayer();
         KmlLayer layerline1 = null;
         KmlLayer layerline2 = null;
@@ -444,7 +572,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    public void chooseOneLayer(int num){
+    public void chooseOneLayer(int num){ //supprime toutes les lignes et n'affiche que celle sélectionnée avec les points de cette dernière
         removeAllLayer();
         KmlLayer layerChosen;
         switch(num){
@@ -537,47 +665,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    public void removeAllLayer(){
+    public void removeAllLayer(){ //supprime toutes les couches de la map (points, kml...)
 
         mMap.clear();
     }
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-
-
+    /*Gestion des clics sur les 2 boutons*/
 
     public void onClickMenu(View view){
 
@@ -586,11 +680,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-
-
-
-
-    public void onClickRefresh(View view){
+    public void onClickRefresh(View view){ //recharge les données si elles ne s'affichent pas correctement
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 MapsActivity.this);
@@ -600,7 +690,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // set dialog message
         alertDialogBuilder
-                .setMessage("Souhaitez vous rafraîchir les données")
+                .setMessage("Souhaitez vous rafraîchir les données ?")
                 .setCancelable(false)
                 .setPositiveButton("Oui",new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int id) {
@@ -624,82 +714,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // show it
         alertDialog.show();
 
-    }
-
-
-    public Bitmap resizeMapIcons(String iconName, int width, int height){
-        Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(),getResources().getIdentifier(iconName, "mipmap", getPackageName()));
-        Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
-        return resizedBitmap;
-    }
-
-    public void addMarkersForLine(int numLine){
-        for(int i=0;i<list.size();i++) {
-
-                if (list.get(i).getIdLine() == numLine) {
-                    LatLng mark = new LatLng(list.get(i).getLatitude(),list.get(i).getLongitude());
-                    mMap.addMarker(new MarkerOptions().position(mark)
-                            .title(list.get(i).getNom())
-                            .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("logobus", 100, 100))))
-                            .setSnippet(Integer.toString(list.get(i).getId()));
-
-                }
-
-
-        }
-    }
-
-    private boolean checkPermission() {
-        Log.d("lol", "checkPermission()");
-        // Ask for permission if it wasn't granted yet
-        return (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED );
-    }
-    // Asks for permission
-    private void askPermission() {
-        Log.d("lol", "askPermission()");
-        ActivityCompat.requestPermissions(
-                this,
-                new String[] { Manifest.permission.ACCESS_FINE_LOCATION },
-                requestInt
-        );
-    }
-
-
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        Log.d("lol", "onRequestPermissionsResult()");
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode == requestInt) {
-            if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission granted
-                if (checkPermission())
-                    Log.d("permission", "location");
-                    mMap.setMyLocationEnabled(true);
-
-            } else {
-                // Permission denied
-                Toast.makeText(this,"Permission de localisation refusée",Toast.LENGTH_LONG).show();
-
-            }
-
-
-        }
-
-    }
-
-    public void fillListFromBDD(){
-        List<PointsData> point = SQLite.select().from(PointsData.class).queryList();
-        list = new ArrayList<>();
-        for(int i = 0; i<point.size();i++){
-            Arret arret = new Arret(point.get(i).getId(),point.get(i).getIdLine());
-            arret.setNom(point.get(i).getNom());
-            arret.setLatitude(point.get(i).getLatitude());
-            arret.setLongitude(point.get(i).getLongitude());
-            list.add(arret);
-        }
     }
 
 }
