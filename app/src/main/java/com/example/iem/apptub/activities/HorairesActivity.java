@@ -44,7 +44,7 @@ public class HorairesActivity extends AppCompatActivity {
         tvRetour.setGravity(Gravity.CENTER_HORIZONTAL);
 
         if(nom == null || a == null || a.getHoraires()==null || a.getHoraires().size() == 0){
-            setTitle("Connais pas");
+            setTitle("Pas de nom");
             TextView tv = new TextView(this);
             tv.setText("Pas d'horaires renseigné pour cet arret");
             lla.addView(tv);
