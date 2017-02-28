@@ -128,11 +128,12 @@ public class AsyncArret extends AsyncTask<Object, Integer, String[]> {
         if(!isConnected)
             Toast.makeText(cont,"Vous semblez etre déconnecté", Toast.LENGTH_SHORT).show();
         if(datas[0] == null || datas[1] == null){
-            Toast.makeText(cont, "Les données n'ont pas été chargées correctement, veuillez réessayer plus tard",Toast.LENGTH_SHORT).show();
+            Toast.makeText(cont, "(Serveur axel) Les données n'ont pas été chargées correctement, veuillez réessayer plus tard",Toast.LENGTH_SHORT).show();
         }else{
             parseStopGroups(datas[0]);
             parseStops(datas[1]);
             fillBDD();
+            Toast.makeText(cont, "(Serveur axel) Les données ont bien été chargées",Toast.LENGTH_SHORT).show();
         }
 
 

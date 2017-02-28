@@ -4,9 +4,9 @@ import com.example.iem.apptub.classes.Arret;
 
 import java.util.List;
 
-import retrofit.http.GET;
-import retrofit.http.Path;
-import retrofit.http.Query;
+import retrofit2.Call;
+import retrofit2.http.GET;
+
 
 /**
  * Created by iem on 03/02/2017.
@@ -17,11 +17,9 @@ import retrofit.http.Query;
 public interface TubAPI {
 
 
-    public static final String ENDPOINT = "http://e18cc850.ngrok.io/index.php";
+    public static final String ENDPOINT = "http://e18cc850.ngrok.io/index.php/";
 
-    @GET("/stops/all")
-    List<Arret> listArret();
+    @GET("stops/all")
+    Call<List<Arret>> listArret();
 
-    /*@GET("/stops/search/{idstop}")
-    List<Arret> searchArret(@Path("idstop") String idstop);*/
 }

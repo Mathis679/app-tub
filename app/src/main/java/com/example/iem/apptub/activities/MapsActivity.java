@@ -65,7 +65,6 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit.RestAdapter;
 
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback{
