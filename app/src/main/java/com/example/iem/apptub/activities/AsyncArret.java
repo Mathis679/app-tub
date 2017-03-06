@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
@@ -38,7 +39,8 @@ public class AsyncArret extends AsyncTask<Object, Integer, String[]> {
     String Html="";
     String data = "";
     Context cont;
-    ListView listView;
+    MapsActivity mapActivity;
+    SplashScreen splashScreen;
     ArrayList<Arret> arrets;
     private static String[]URL;
     boolean isConnected = true;
@@ -49,6 +51,12 @@ public class AsyncArret extends AsyncTask<Object, Integer, String[]> {
 
         URL tmpUrl=null;
         cont = (Context)urls[0];
+
+        if (urls[0] instanceof MapsActivity) {
+            mapActivity = (MapsActivity) urls[0];
+        }else if (urls[0] instanceof SplashScreen) {
+            splashScreen = (SplashScreen) urls[0];
+        }
 
         String[] datas = new String[2];
 
@@ -123,7 +131,13 @@ public class AsyncArret extends AsyncTask<Object, Integer, String[]> {
 
     }
 
+
     protected void onPostExecute(String[] datas) {
+        if(mapActivity != null)
+            mapActivity.setVisibleLoader(false);
+        else if(splashScreen != null){
+            splashScreen.setVisibleLoader(false);
+        }
 
         if(!isConnected)
             Toast.makeText(cont,"Vous semblez etre déconnecté", Toast.LENGTH_SHORT).show();
@@ -135,7 +149,6 @@ public class AsyncArret extends AsyncTask<Object, Integer, String[]> {
             fillBDD();
             Toast.makeText(cont, "(Serveur axel) Les données ont bien été chargées",Toast.LENGTH_SHORT).show();
         }
-
 
 
 

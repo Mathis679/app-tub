@@ -76,6 +76,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Context currCtx;
     View mapView;
     List<Arret> list;
+    RelativeLayout loader;
 
 
     @Override
@@ -83,6 +84,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
+
+        loader = (RelativeLayout) findViewById(R.id.loadingPanel);
 
         Thread thread = new Thread(new MyRunnable(this));
         thread.start();
@@ -694,8 +697,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .setCancelable(false)
                 .setPositiveButton("Oui",new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int id) {
+                        setVisibleLoader(true);
                         new AsyncArret().execute(MapsActivity.this,"https://tub.bourgmapper.fr/api/stopgroups","https://tub.bourgmapper.fr/api/stops");
-                        Toast.makeText(MapsActivity.this, "Les données ont été rechargées.", Toast.LENGTH_SHORT).show();
                         dialog.cancel();
                         MapsActivity.this.onMapReady(mMap);
                     }
@@ -714,6 +717,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // show it
         alertDialog.show();
 
+    }
+
+    public void setVisibleLoader(boolean visible){
+        if(visible)
+            loader.setVisibility(View.VISIBLE);
+        else
+            loader.setVisibility(View.GONE);
     }
 
 }
