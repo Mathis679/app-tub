@@ -1,10 +1,11 @@
-package com.example.iem.apptub;
+package com.example.iem.apptub.async;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.widget.Toast;
 
+import com.example.iem.apptub.interfaces.TubAPI;
 import com.example.iem.apptub.classes.Arret;
 
 import java.util.List;

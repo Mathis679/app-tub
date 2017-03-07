@@ -1,4 +1,4 @@
-package com.example.iem.apptub.activities;
+package com.example.iem.apptub.async;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -10,6 +10,8 @@ import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.example.iem.apptub.R;
+import com.example.iem.apptub.activities.MapsActivity;
+import com.example.iem.apptub.activities.SplashScreen;
 import com.example.iem.apptub.classes.Arret;
 import com.example.iem.apptub.database.PointsData;
 import com.google.android.gms.maps.model.LatLng;

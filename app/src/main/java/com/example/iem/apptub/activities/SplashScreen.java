@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.example.iem.apptub.R;
+import com.example.iem.apptub.async.AsyncArret;
 
 
 public class SplashScreen extends Activity {
@@ -21,6 +22,7 @@ public class SplashScreen extends Activity {
         loader = (RelativeLayout) findViewById(R.id.loadingPanel);
 
         setVisibleLoader(true);
+
 
         new AsyncArret().execute(this,"https://tub.bourgmapper.fr/api/stopgroups","https://tub.bourgmapper.fr/api/stops");
         Thread timerThread = new Thread(){

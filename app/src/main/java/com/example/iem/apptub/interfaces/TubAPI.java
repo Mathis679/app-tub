@@ -1,4 +1,4 @@
-package com.example.iem.apptub;
+package com.example.iem.apptub.interfaces;
 
 import com.example.iem.apptub.classes.Arret;
 
