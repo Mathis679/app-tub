@@ -1,9 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_horaires"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.iem.apptub.activities.SearchActivity">
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.iem.apptub.activities.SearchActivity"
+    android:background="#87847c">
 
-</android.support.constraint.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Entrez latitude, longitude d'origine :"
+            android:textColor="@android:color/white"/>
+        <EditText
+            android:id="@+id/etlatorigin"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:hint="latitude"/>
+        <EditText
+            android:id="@+id/etlngorigin"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:hint="longitude"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Entrez latitude, longitude d'arrivée :"
+            android:textColor="@android:color/white"/>
+        <EditText
+            android:id="@+id/etlatend"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:hint="latitude"/>
+        <EditText
+            android:id="@+id/etlngend"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:hint="longitude"/>
+
+        <Button
+            android:id="@+id/butsearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rechercher"/>
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

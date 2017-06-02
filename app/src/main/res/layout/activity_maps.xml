@@ -33,6 +33,21 @@
             />
 
         <RelativeLayout
+            android:id="@+id/itin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/wallet_holo_blue_light"
+            android:layout_gravity="bottom|center_horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Itinéraire"
+                android:textColor="@android:color/white"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
             android:id="@+id/loadingPanel"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

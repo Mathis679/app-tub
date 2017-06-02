@@ -76,6 +76,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     View mapView;
     List<Arret> list;
     RelativeLayout loader;
+    RelativeLayout rlItin;
 
 
     @Override
@@ -85,6 +86,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
         loader = (RelativeLayout) findViewById(R.id.loadingPanel);
+
+        rlItin = (RelativeLayout) findViewById(R.id.itin);
 
         Thread thread = new Thread(new MyRunnable(this));
         thread.start();
@@ -169,12 +172,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
-
+        rlItin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MapsActivity.this,SearchActivity.class);
+                startActivity(i);
+                finish();
+            }
+        });
 
         mapView = mapFragment.getView();
 
 
+
     }
+
 
 
 
@@ -264,21 +276,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             layoutParams.setMargins(0, 0, 30, 30);
         }
 
-        LatLng origin = new LatLng(3.214732, 101.747047);
-        LatLng dest = new LatLng(3.214507, 101.749697);
+        Intent i =getIntent();
+        if(i.hasExtra("latorigin")){
+            LatLng origin = new LatLng(i.getDoubleExtra("latorigin",46.2), i.getDoubleExtra("lngorigin",5.21667));
+            LatLng dest = new LatLng(i.getDoubleExtra("latend",46.19813), i.getDoubleExtra("lngend",5.236));
 
 // Getting URL to the Google Directions API
-        String url = getDirectionsUrl(origin, dest);
+            String url = getDirectionsUrl(origin, dest);
 
-        Log.d("url", url);
-        DownloadTask downloadTask = new DownloadTask();
+            Log.d("url", url);
+            DownloadTask downloadTask = new DownloadTask();
 
 // Start downloading json data from Google Directions API
-        downloadTask.execute(url);
+            downloadTask.execute(url);
+        }
+
     }
 
-
-    public void goTo(){}
 
     private String getDirectionsUrl(LatLng origin,LatLng dest){
 
